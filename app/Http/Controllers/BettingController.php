@@ -118,7 +118,7 @@ class BettingController extends Controller
                                 $transaction->description = "Winning Amount.";
                                 $transaction->date = $date;
                                 $transaction->time = $time;
-                                $transaction->is_winning_amount = 1;
+                               // $transaction->is_winning_amount = 1;
                                 $transaction->current_balance = $wallet_update->deposit_balance + $wallet_update->winning_balance + $wallet_update->bonus_balance ;
                                 $transaction->save();
 

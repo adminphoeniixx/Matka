@@ -77,6 +77,7 @@ class UserController extends Controller
 
        $wallet = new Wallet;
        $wallet->user_id = $data->id;
+       $wallet->deposit_balance = 1000;
        $wallet->bonus_balance +=setting('admin.joining_bonus') ;
        $wallet->save();
 

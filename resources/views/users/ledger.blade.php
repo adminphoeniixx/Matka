@@ -44,8 +44,8 @@
                     <th>#</th>
                     <th>Date</th>
                     <th>Description</th>  
-                    <th>Increase</th> 
-                    <th>Decrease</th>       
+                    <th>Deposit</th> 
+                    <th>Withdraw</th>       
                     <th>Balance</th>
                   </tr>
                </thead>

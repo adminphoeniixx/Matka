@@ -28,7 +28,7 @@ class UserController extends Controller
 
     public function userdata()
     {
-        $users = User::join('roles','users.role_id','roles.id')->select('users.*','roles.display_name')->orderBy('users.id')
+        $users = User::join('roles','users.role_id','roles.id')->select('users.*','roles.display_name')->orderBy('users.id','ASC')
         ->get();
         return Datatables::of($users)
            ->addColumn('action', function ($users) {

@@ -71,4 +71,12 @@ Route::group(['prefix' => 'admin'], function () {
      Route::post('addnotification', [NotificationsController::class, 'store'])->name('addnotification');
      Route::get('destroynotification/{id}', [NotificationsController::class, 'destroy'])->name('destroynotification');
 
+
+
+     Route::get('pushnotifications', [NotificationsController::class, 'pushnotifications'])->name('pushnotifications');
+     Route::get('pushnotificationsdata', [NotificationsController::class, 'pushnotificationsdata'])->name('pushnotificationsdata');
+     Route::get('addpushnotification', [NotificationsController::class, 'createaddpushnotification'])->name('addpushnotification');
+     Route::post('addpushnotification', [NotificationsController::class, 'storeaddpushnotification'])->name('addpushnotification');
+     Route::get('destroypushnotification/{id}', [NotificationsController::class, 'destroypushnotification'])->name('destroypushnotification');
+
 });

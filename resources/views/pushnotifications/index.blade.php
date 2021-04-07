@@ -3,18 +3,11 @@
 @section('page_header')
     <div class="container-fluid">
         <h1 class="page-title">
-            <i class=""></i> Users
+            <i class=""></i>Push Notifications Management
         </h1>
-       
-            <a href="{{route('adduser')}}" class="btn btn-success btn-add-new">
-                <i class="voyager-plus"></i> <span>Add User</span>
+      <a href="{{route('addpushnotification')}}" class="btn btn-success btn-add-new">
+                <i class="voyager-plus"></i> <span>Add Push Notifiction</span>
             </a>
-
-
-    
-       
-      
-     
         
     </div>
 @stop
@@ -26,14 +19,14 @@
  	<div class="row">
  		<div class="col-md-12">
  			<div id="" class="table-responsive">
-              <table class="table table-bordered" id="table">
+              <table class="table table-bordered" id="notificationstable">
                <thead>
                   <tr>
                     <th>#</th>
-                    <th>User Name</th>  
-                    <th>User Email</th> 
-                    <th>User Role</th>      
-                     <th >Action</th>
+                    <th>Title</th>  
+                    <th>Message</th> 
+                    <th>Created At</th>      
+                    <th>Actions</th>
                   </tr>
                </thead>
             </table>
@@ -44,12 +37,7 @@
 
  </div>
 
-  
-  <script type="text/javascript">
-
-   
-     
-  </script>
+  </div>
 
 
  @stop

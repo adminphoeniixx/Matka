@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationsController;
-
+use App\Http\Controllers\NewUserController;
 
 
 
@@ -36,8 +36,8 @@ Route::group(['prefix' => 'admin'], function () {
      Route::get('edituser/{id}', [UserController::class, 'edit'])->name('edituser');
      Route::post('updateuser', [UserController::class, 'update'])->name('updateuser');
      Route::get('deleteuser/{id}', [UserController::class, 'destroy'])->name('deleteuser');
-     Route::get('wallet/{id}', [UserController::class, 'wallet'])->name('wallet');
-     Route::get('ledger/{id}', [UserController::class, 'ledger'])->name('ledger');
+     Route::get('userwallet/{id}', [NewUserController::class, 'wallet'])->name('userwallet');
+     Route::get('ledger/{id}', [NewUserController::class, 'ledger'])->name('ledger');
      Route::get('ledgerdata', [UserController::class, 'ledgerdata'])->name('ledgerdata');
 
 

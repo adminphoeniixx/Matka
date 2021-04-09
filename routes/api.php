@@ -25,9 +25,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('/user')->group(function (){
 
+
+// Fetch All Available States
+
+Route::get('/get-states','api\v1\LoginController@states');
+
+
 Route::post('/login','api\v1\LoginController@login');
 
 Route::post('/register','api\v1\LoginController@register');
+
+Route::post('/verify-otp','api\v1\LoginController@verifyotp');
+
+Route::post('/resend-otp','api\v1\LoginController@resendotp');
 
 Route::middleware('auth:api')->get('/all','api\v1\LoginController@index');
 

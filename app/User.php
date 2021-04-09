@@ -8,9 +8,10 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 
+
 class User extends \TCG\Voyager\Models\User
 {
-    use HasApiTokens,Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
      * The attributes that are mass assignable.

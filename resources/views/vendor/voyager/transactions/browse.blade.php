@@ -7,14 +7,7 @@
         <h1 class="page-title">
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
         </h1>
-        @can('add', app($dataType->model_name))
-            <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success btn-add-new">
-                <i class="voyager-plus"></i> <span>{{ __('voyager::generic.add_new') }}</span>
-            </a>
-        @endcan
-        @can('delete', app($dataType->model_name))
-            @include('voyager::partials.bulk-delete')
-        @endcan
+       
         @can('edit', app($dataType->model_name))
             @if(isset($dataType->order_column) && isset($dataType->order_display_column))
                 <a href="{{ route('voyager.'.$dataType->slug.'.order') }}" class="btn btn-primary btn-add-new">
@@ -177,16 +170,9 @@
                                                     @endif
                                                 @elseif($row->type == 'color')
                                                     <span class="badge badge-lg" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
-                                                @elseif($row->type == 'text' && $row->field != 'form_field')
+                                                @elseif($row->type == 'text')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
-                                                 
-                                                @elseif($row->type == 'text' && $row->field=='form_field')
-                                                    @include('voyager::multilingual.input-hidden-bread-browse')
-                                                    <div><a href="{{url('/admin/forms/form', [$data->id])}}">
-                                                        {{ $data->{$row->field} }}</a>
-                                                    </div>
-                                                  
                                                 @elseif($row->type == 'text_area')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
@@ -257,18 +243,21 @@
                                                 @endif
                                             </td>
                                         @endforeach
+
                                         <td class="no-sort no-click bread-actions">
-                                            @foreach($actions as $action)
-                                                @if (!method_exists($action, 'massAction'))
-                                                    @include('voyager::bread.partials.actions', ['action' => $action])
-                                                @endif
-                                            @endforeach
+                                            @php
+                                         
+                                            @endphp
+                                          
+                                           
+                                          
                                         </td>
                                     </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
+                       
                         @if ($isServerSide)
                             <div class="pull-left">
                                 <div role="status" class="show-res" aria-live="polite">{{ trans_choice(

@@ -8,7 +8,8 @@ use Auth;
 use App\User;
 use App\Wallet;
 use App\Transaction;
-
+use App\State;
+use App\Events\Registration;
 class LoginController extends Controller
 {
 
@@ -23,6 +24,16 @@ class LoginController extends Controller
 
 
 
+    public function states(){
+
+        $data= State::all();
+        return response(['status'=>'success','message'=>'States fetched successfully.', 'states'=>$data]);
+    }
+
+
+
+
+
     public function login(Request $request){
 
     	$login = $request->validate([
@@ -31,14 +42,14 @@ class LoginController extends Controller
     	]);
 
     	if(!(Auth::attempt($login))){
-    		return response(['message'=>'Invalid login credentials.']);
+    		return response(['status'=>'error','message'=>'Invalid login credentials.']);
     	}
 
 
     	$accessToken  = Auth::user()->createToken('Token Name')->accessToken;
 
 
-    	return response(['message'=>'Login Successful.','user'=>Auth::user(), 'access_token'=>$accessToken]);
+    	return response(['status'=>'success','message'=>'Login Successful.','user'=>Auth::user(), 'access_token'=>$accessToken]);
 
     }
 
@@ -53,7 +64,7 @@ class LoginController extends Controller
 
     	$validator = $request->validate([
     		'name'=>'required|string',
-            'mobile_number'=>'required|string',
+            'mobile_number'=>'required|string|unique:users,mobile',
             'email_address'=>'required|string|unique:users,email',
             'password'=>'required|string',
             'state_id'=>'required|integer', 
@@ -61,26 +72,43 @@ class LoginController extends Controller
         ]);
 
 
-                    date_default_timezone_set('Asia/Kolkata');
+                   date_default_timezone_set('Asia/Kolkata');
 
                     $date=date("Y-m-d");
                     $time=date("H:m:s");
- 
+                    
+
+                    $otp= rand(100000,999999);
+
+                    
 
 			       $data = new User;
 			       $data->name = $request->name;
 			       $data->email = $request->email_address;
+                   $data->mobile = $request->mobile_number;
 			       $data->password = bcrypt($request->password);
 			       $data->role_id = 2;
+                  
 			       $data->state_id  = $request->state_id;
 			       $data->referral_code = uniqid();
 			       $data->referral_code_used = $request->referral_code;
 			       $data->save();
 
-			       $wallet = new Wallet;
-			       $wallet->user_id = $data->id;
-			       $wallet->bonus_balance +=setting('admin.joining_bonus') ;
-			       $wallet->save();
+
+                    event(new Registration($data->mobile));
+
+			       
+
+
+                   if(setting('admin.joining_bonus')>0){
+
+
+
+                   $wallet = new Wallet;
+                   $wallet->user_id = $data->id;
+                   $wallet->bonus_balance +=setting('admin.joining_bonus') ;
+                   $wallet->save();
+
 
 
                     $transaction = new Transaction;
@@ -93,10 +121,151 @@ class LoginController extends Controller
                     $transaction->current_balance = $wallet->deposit_balance + $wallet->winning_balance + $wallet->bonus_balance ;
                     $transaction->save();
 
+                   }
+                   
 
-			       return response(['message'=>'Registration Successfull.']);
+
+			       return response(['status'=>'success','message'=>'Registration Successfull.','user'=>$data]);
 
     	
+
+    }
+
+
+
+
+
+    public function verifyotp(Request $request){
+
+        $validator = $request->validate([
+            'mobile_number'=>'required|string',
+            'otp'=>'required|string',
+        ]);
+
+        $check_user = User::where('mobile',$request->mobile_number)->first();
+
+        if(!empty($check_user->id)){
+
+             $user = User::find($check_user->id);
+
+
+
+
+                $curl = curl_init();
+
+                curl_setopt_array($curl, array(
+                  CURLOPT_URL => "https://api.msg91.com/api/v5/otp/verify?authkey=357859AufIJss760659e28P1&mobile=".urlencode($request->mobile_number)."&otp=".$request->otp."",
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => "",
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 30,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => "GET",
+                ));
+
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
+
+                curl_close($curl);
+
+                      if ($err) {
+                        //echo "cURL Error #:" . $err;
+                          return response(['status'=>'error','message'=>'Something went wrong.']);
+                      } else {
+                        //echo $response;
+                       $status= json_decode($response);
+                       if($status->type=="error"){
+                      return response(['status'=>'error','message'=>$status->message]);
+                       }else{
+                        $user->is_otp_verified=1;
+                        $user->save();
+                      return response(['status'=>'success','message'=>'OTP verified successfully','user'=>$user]);
+                       }
+
+                      }
+
+        }else{
+            return response(['status'=>'error','message'=>'User not found.']);
+        }
+
+        
+
+       
+
+        
+
+    }
+
+
+
+
+
+
+
+
+
+    public function resendotp(Request $request){
+
+         $validator = $request->validate([
+            'mobile_number'=>'required|string',
+        ]);
+
+
+          $check_user = User::where('mobile',$request->mobile_number)->first();
+
+        if(!empty($check_user->id)){
+
+             $user = User::find($check_user->id);
+
+
+             $curl = curl_init();
+
+              curl_setopt_array($curl, array(
+              CURLOPT_URL => "https://api.msg91.com/api/v5/otp/retry?authkey=357859AufIJss760659e28P1&retrytype=text&mobile=".urlencode($request->mobile_number)."",
+              CURLOPT_RETURNTRANSFER => true,
+              CURLOPT_ENCODING => "",
+              CURLOPT_MAXREDIRS => 10,
+              CURLOPT_TIMEOUT => 30,
+              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+              CURLOPT_CUSTOMREQUEST => "GET",
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            if ($err) {
+              return response(['status'=>'error','message'=>'Something went wrong.']);
+            } else {
+              //echo $response;
+             $status= json_decode($response);
+             if($status->type=='error'){
+            return response(['status'=>'error','message'=>$status->message]);
+             }else{
+            return response(['status'=>'success','message'=>$status->message]);
+             }
+
+            }
+
+
+
+
+
+         }else{
+
+            return response(['status'=>'error','message'=>"Mobile number not found."]);
+         }
+         
+
+
+         
+
+
+
+
+
+
 
     }
 

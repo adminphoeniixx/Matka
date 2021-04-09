@@ -177,16 +177,9 @@
                                                     @endif
                                                 @elseif($row->type == 'color')
                                                     <span class="badge badge-lg" style="background-color: {{ $data->{$row->field} }}">{{ $data->{$row->field} }}</span>
-                                                @elseif($row->type == 'text' && $row->field != 'form_field')
+                                                @elseif($row->type == 'text')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
-                                                 
-                                                @elseif($row->type == 'text' && $row->field=='form_field')
-                                                    @include('voyager::multilingual.input-hidden-bread-browse')
-                                                    <div><a href="{{url('/admin/forms/form', [$data->id])}}">
-                                                        {{ $data->{$row->field} }}</a>
-                                                    </div>
-                                                  
                                                 @elseif($row->type == 'text_area')
                                                     @include('voyager::multilingual.input-hidden-bread-browse')
                                                     <div>{{ mb_strlen( $data->{$row->field} ) > 200 ? mb_substr($data->{$row->field}, 0, 200) . ' ...' : $data->{$row->field} }}</div>
@@ -257,8 +250,16 @@
                                                 @endif
                                             </td>
                                         @endforeach
+
                                         <td class="no-sort no-click bread-actions">
+                                            @php
+                                         
+                                            @endphp
+                                          
+                                            <a style="margin-right: 5px;" href="{{route('userwallet',['id'=>$data->getKey()])}}" class="btn btn-primary float-right">Wallet</a>
+                                            <a style="margin-right: 5px;" href="{{route('ledger',['id'=>$data->getKey()])}}" class="btn btn-primary float-right">Ledger</a>
                                             @foreach($actions as $action)
+
                                                 @if (!method_exists($action, 'massAction'))
                                                     @include('voyager::bread.partials.actions', ['action' => $action])
                                                 @endif
@@ -269,6 +270,7 @@
                                 </tbody>
                             </table>
                         </div>
+                       
                         @if ($isServerSide)
                             <div class="pull-left">
                                 <div role="status" class="show-res" aria-live="polite">{{ trans_choice(

@@ -216,53 +216,7 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
 
 
 
-         @if(Route::current()->getName()=='ledger')
-
-         $(function() {
-
-            var fromdate="{{$fromdate}}";
-            var todate="{{$todate}}";
-            var userid="{{$userid}}";
-               $('#ledgertable').DataTable({
-               processing: true,
-               serverSide: true,
-                ajax: {
-                        url: '{{ route('ledgerdata') }}',
-                        type: "get",
-                        data: function (d) {
-                              d.fromdate = fromdate;
-                              d.todate = todate;
-                              d.userid=userid;
-                    },
-                    beforeSend: function() {
-   
-                       // alert(fromdate+"////"+todate);
-                    },
-                },
-
-               columns: [
-                        {
-                        "data": "id",
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                        },
-                        { data: 'date', name: 'Date' },
-                        { data: 'description', name: 'Description' },
-                         { data: 'increase', name: 'Deposit' },
-                         { data: 'decrease', name: 'Withdraw' },
-                         { data: 'balance', name: 'Balance' },
-             
-                        
-                     ],
-                     dom: 'Bfrtip',
-                      buttons: [
-                              'excel', 'csv', 'pdf', 'copy'
-                            ],
-            });
-         });
-
-@endif
+  
 
 
 @if(Route::current()->getName()=='withdrawal')

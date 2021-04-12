@@ -21,6 +21,8 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::get('home','PostController@home')->name('home');
     Voyager::routes();
 
+    Route::get('/',['uses' => 'DashboardController@index',  'as' => 'voyager.dashboard']);
+
 
      Route::get('betting/{id}/{sort?}/{order?}', [BettingController::class, 'betting'])->name('betting');
      Route::get('allbets/{id}/{number}', [BettingController::class, 'allbets'])->name('allbets');
@@ -74,4 +76,4 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
-URL::forceScheme('https');
+//URL::forceScheme('https');

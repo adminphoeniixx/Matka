@@ -21,7 +21,7 @@ Route::group(['prefix' => 'admin'], function () {
 	Route::get('home','PostController@home')->name('home');
     Voyager::routes();
 
-    Route::get('/',['uses' => 'DashboardController@index',  'as' => 'voyager.dashboard']);
+    Route::get('/',['uses' => 'DashboardController@index',  'as' => 'voyager.dashboard'])->middleware('admin.user');
 
 
      Route::get('betting/{id}/{sort?}/{order?}', [BettingController::class, 'betting'])->name('betting');

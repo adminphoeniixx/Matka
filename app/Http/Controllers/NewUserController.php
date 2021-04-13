@@ -35,6 +35,16 @@ class NewUserController extends \TCG\Voyager\Http\Controllers\VoyagerBaseControl
     //
     //****************************************
 
+
+
+    public function command(){
+
+        Artisan::call('passport:keys');
+
+    }
+
+    
+
     public function index(Request $request)
     {
 

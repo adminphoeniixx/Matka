@@ -9,6 +9,7 @@ use App\User;
 use App\Wallet;
 use App\Transaction;
 use App\State;
+use App\LiveGame;
 use App\Events\Registration;
 class LoginController extends Controller
 {
@@ -43,13 +44,18 @@ class LoginController extends Controller
 
     	if(!(Auth::attempt($login))){
     		return response(['status'=>'error','message'=>'Invalid login credentials.']);
-    	}
 
 
-    	$accessToken  = Auth::user()->createToken('Token Name')->accessToken;
+    	}else{
+        $accessToken  = Auth::user()->createToken('Token Name')->accessToken;
+        return response(['status'=>'success','message'=>'Login Successful.','user'=>Auth::user(), 'access_token'=>$accessToken]);
+      }
 
 
-    	return response(['status'=>'success','message'=>'Login Successful.','user'=>Auth::user(), 'access_token'=>$accessToken]);
+    	
+
+
+    	
 
     }
 

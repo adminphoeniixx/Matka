@@ -39,8 +39,25 @@ Route::post('/verify-otp','api\v1\LoginController@verifyotp');
 
 Route::post('/resend-otp','api\v1\LoginController@resendotp');
 
-Route::middleware('auth:api')->get('/all','api\v1\LoginController@index');
 
+Route::middleware('auth:api')->get('/home','api\v1\HomeController@index');
+
+Route::middleware('auth:api')->post('/get-wallet','api\v1\HomeController@wallet');
+
+Route::middleware('auth:api')->post('/add-cash','api\v1\HomeController@addcash');
+
+Route::middleware('auth:api')->post('/play-jodi-game','api\v1\BettingController@playjodigame');
+
+Route::middleware('auth:api')->post('/play-crossing-game','api\v1\BettingController@playcrossinggame');
+
+
+});
+
+
+
+Route::prefix('/home')->group(function (){
+
+Route::get('/index','api\v1\LoginController@index');
 
 });
 

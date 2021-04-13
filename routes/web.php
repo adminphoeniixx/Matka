@@ -5,7 +5,7 @@ use App\Http\Controllers\BettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\NewUserController;
-
+use App\Http\Controllers\HomeController;
 
 
 
@@ -15,7 +15,12 @@ Route::get('/', function () {
 });
 
 
+
+
+
 Route::group(['prefix' => 'admin'], function () {
+
+     Route::get('command', [HomeController::class, 'command'])->name('command');
 
 	Route::get('posts/publish','Voyager\PostController@publish')->name('posts.publish');
 	Route::get('home','PostController@home')->name('home');
@@ -76,4 +81,4 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
-URL::forceScheme('https');
+//URL::forceScheme('https');

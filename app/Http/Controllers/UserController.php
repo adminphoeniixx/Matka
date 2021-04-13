@@ -427,6 +427,10 @@ public function custom($id, Request $request){
    }
 
 
+
+
+
+
    public function withdrawaldata(Request $request){
 
      $users = WithdrawalRequest::join('users','users.id','withdrawal_requests.user_id')->select('withdrawal_requests.*','users.name')->orderBy('withdrawal_requests.id')

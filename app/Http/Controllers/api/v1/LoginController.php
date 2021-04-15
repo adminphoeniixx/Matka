@@ -167,11 +167,9 @@ class LoginController extends Controller
             'otp'=>'required|string',
         ]);
 
-        $check_user = User::where('mobile',$request->mobile_number)->first();
+      
 
-        if(!empty($check_user->id)){
-
-             $user = User::find($check_user->id);
+      
 
                 $curl = curl_init();
 
@@ -199,16 +197,12 @@ class LoginController extends Controller
                        if($status->type=="error"){
                       return response(['status'=>'error','message'=>$status->message]);
                        }else{
-                        $user->is_otp_verified=1;
-                        $user->save();
-                      return response(['status'=>'success','message'=>'OTP verified successfully','user'=>$user]);
+                       
+                      return response(['status'=>'success','message'=>'OTP verified successfully']);
                        }
 
                       }
 
-        }else{
-            return response(['status'=>'error','message'=>'User not found.']);
-        }
 
         
 
@@ -229,11 +223,7 @@ class LoginController extends Controller
         ]);
 
 
-          $check_user = User::where('mobile',$request->mobile_number)->first();
-
-        if(!empty($check_user->id)){
-
-             $user = User::find($check_user->id);
+    
 
 
              $curl = curl_init();
@@ -265,19 +255,6 @@ class LoginController extends Controller
              }
 
             }
-
-
-         }else{
-
-            return response(['status'=>'error','message'=>"Mobile number not found."]);
-         }
-         
-
-
-         
-
-
-
 
 
 

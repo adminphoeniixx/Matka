@@ -91,7 +91,7 @@ class LoginController extends Controller
 			       $data = new User;
 			       $data->name = $request->name;
 			       $data->email = $request->email_address;
-                   $data->mobile = $request->mobile_number;
+             $data->mobile = $request->mobile_number;
 			       $data->password = bcrypt($request->password);
 			       $data->role_id = 2;
                   
@@ -101,7 +101,7 @@ class LoginController extends Controller
 			       $data->save();
 
 
-                    event(new Registration($data->mobile));
+                    //event(new Registration($data->mobile));
 
 			       
 
@@ -141,6 +141,25 @@ class LoginController extends Controller
 
 
 
+    public function sendotp(Request $request){
+
+
+      $validator = $request->validate([
+            'mobile_number'=>'required|string|unique:users,mobile',
+        ]);
+
+
+
+       event(new Registration($request->mobile_number));
+
+       return response(['status'=>'success','message'=>'OTP sent successfully.']);
+
+    }
+
+
+
+
+
     public function verifyotp(Request $request){
 
         $validator = $request->validate([
@@ -153,9 +172,6 @@ class LoginController extends Controller
         if(!empty($check_user->id)){
 
              $user = User::find($check_user->id);
-
-
-
 
                 $curl = curl_init();
 
@@ -206,10 +222,6 @@ class LoginController extends Controller
 
 
 
-
-
-
-
     public function resendotp(Request $request){
 
          $validator = $request->validate([
@@ -253,9 +265,6 @@ class LoginController extends Controller
              }
 
             }
-
-
-
 
 
          }else{

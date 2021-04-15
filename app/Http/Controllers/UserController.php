@@ -34,10 +34,10 @@ use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 
 
 
-class UserController extends \TCG\Voyager\Http\Controllers\VoyagerBaseController
+class UserController extends Controller
 {
 
-  use BreadRelationshipParser;
+
 
 
     public function index()
@@ -515,19 +515,26 @@ public function custom($id, Request $request){
          $wallet_update = Wallet::find($wallet_search->id);
          $wallet_update->winning_balance -=  $request->amount;
          $wallet_update->save();
-        }
 
 
 
-        $transaction = new Transaction;
+         $transaction = new Transaction;
         $transaction->transaction_type = 2;
         $transaction->user_id = $request->userid ;
         $transaction->amount = $request->amount ;
         $transaction->date = $date;
         $transaction->time = $time;
         $transaction->description = "Withdrawal.";
-        $transaction->current_balance = $wallet->deposit_balance + $wallet->winning_balance + $wallet->bonus_balance ;
+        $transaction->current_balance = $wallet_update->deposit_balance + $wallet_update->winning_balance + $wallet_update->bonus_balance ;
         $transaction->save();
+
+
+
+        }
+
+
+
+        
 
 
        

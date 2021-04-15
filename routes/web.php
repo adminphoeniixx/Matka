@@ -81,4 +81,4 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 
-URL::forceScheme('https');
+//URL::forceScheme('https');

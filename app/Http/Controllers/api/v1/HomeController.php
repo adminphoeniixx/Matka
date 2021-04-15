@@ -33,8 +33,9 @@ class HomeController extends Controller
     						  ->whereTime('companies.bet_end_time','>',$time)
     						  ->get();
 
+        $is_holiday=setting('admin.holiday');
 
-    			return response(['status'=>'success','message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'upcoming_games'=>$upcoming_games]);			 
+    			return response(['status'=>'success','message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday]);			 
 
     }
 

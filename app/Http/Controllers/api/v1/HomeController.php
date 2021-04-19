@@ -18,9 +18,16 @@ class HomeController extends Controller
 {
     public function index(Request $request){
 
+
+        $login = $request->validate([
+            'user_id'=>'required|string'
+        ]);
+
     	date_default_timezone_set('Asia/Kolkata');
 		$date=date("Y-m-d");
         $time=date("H:m:s");
+
+
 
     	$companies = Company::all();
     	$live_games = LiveGame::join('companies','companies.id','live_games.company')
@@ -43,9 +50,11 @@ class HomeController extends Controller
 
         $is_holiday=setting('admin.holiday');
 
+        $wallet = Wallet::where('user_id',$request->user_id)->first();
+
        
 
-    			return response(['status'=>'success','message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'live_results'=>$live_results,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday]);			 
+    			return response(['status'=>'success','message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'live_results'=>$live_results,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday,'wallet'=>$wallet]);			 
 
     }
 

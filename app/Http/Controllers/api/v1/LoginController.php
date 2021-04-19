@@ -11,6 +11,8 @@ use App\Transaction;
 use App\State;
 use App\LiveGame;
 use App\Events\Registration;
+use Str;
+use Illuminate\Support\Facades\Password;
 class LoginController extends Controller
 {
 
@@ -262,6 +264,25 @@ class LoginController extends Controller
     }
 
 
+
+
+    public function forgetpassword(Request $request){
+
+   
+        $request->validate(['email' => 'required|email']);
+
+         $status = Password::sendResetLink(
+                        $request->only('email')
+                    );
+
+         dd($status);
+
+     
+
+
+
+
+    }
 
 
 

@@ -12,6 +12,7 @@ use App\State;
 use App\Events\Registration;
 use App\Company;
 use App\LiveGame;
+use App\WinningNumber;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,11 @@ class HomeController extends Controller
     	$companies = Company::all();
     	$live_games = LiveGame::join('companies','companies.id','live_games.company')
     				  ->where('live_games.status',1)->first();
+
+        $live_results= LiveGame::join('companies','companies.id','live_games.company')
+                       ->join('winning_number','live_games.id','winning_number.live_game_id')
+                       ->whereDate('live_games.created_at', '<=', $date)
+                       ->get();             
 	
 
     	$upcoming_games = LiveGame::join('companies','companies.id','live_games.company')
@@ -35,7 +41,7 @@ class HomeController extends Controller
 
         $is_holiday=setting('admin.holiday');
 
-    			return response(['status'=>'success','message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday]);			 
+    			return response(['status'=>'success','message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'live_results'=>$live_results,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday]);			 
 
     }
 

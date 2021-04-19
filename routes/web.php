@@ -6,13 +6,20 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\NewUserController;
 use App\Http\Controllers\HomeController;
-
+use App\Mail\UserRegisterMail;
 
 
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/email', function () {
+    return new UserRegisterMail();
+});
+
+
+Route::get('reset','PostController@home')->name('password.reset');
 
 
 

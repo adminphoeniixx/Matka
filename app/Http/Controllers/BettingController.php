@@ -89,6 +89,7 @@ class BettingController extends Controller
     		$winner->user_id = $value->user;
     		$winner->amount = $value->amount;
     		$winner->number = $value->number;
+            $winner->betting_id = $value->id;
     	
     		$profit=0;
 

@@ -41,6 +41,8 @@ Route::post('/verify-otp','api\v1\LoginController@verifyotp');
 
 Route::post('/resend-otp','api\v1\LoginController@resendotp');
 
+Route::post('/forget-password','api\v1\LoginController@forgetpassword');
+
 
 Route::middleware('auth:api')->get('/home','api\v1\HomeController@index');
 

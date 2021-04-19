@@ -24,11 +24,13 @@ class HomeController extends Controller
 
     	$companies = Company::all();
     	$live_games = LiveGame::join('companies','companies.id','live_games.company')
+                       ->select('live_games.*','companies.*',\DB::raw('(SELECT COUNT(*) FROM bettings WHERE bettings.live_game_id = live_games.id) as players')) 
     				  ->where('live_games.status',1)->first();
 
         $live_results= LiveGame::join('companies','companies.id','live_games.company')
                        ->join('winning_number','live_games.id','winning_number.live_game_id')
                        ->whereDate('live_games.created_at', '<=', $date)
+                       
                        ->get();             
 	
 
@@ -40,6 +42,8 @@ class HomeController extends Controller
     						  ->get();
 
         $is_holiday=setting('admin.holiday');
+
+       
 
     			return response(['status'=>'success','message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'live_results'=>$live_results,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday]);			 
 

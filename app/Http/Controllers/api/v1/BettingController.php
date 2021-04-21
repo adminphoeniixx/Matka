@@ -204,7 +204,7 @@ class BettingController extends Controller
     {
         $validator = $request->validate([
             'live_game_id'=>'required|integer',
-            'number'=>'required|array|min:4',
+            'numbers'=>'required|array|min:4',
             'amount'=>'required|integer',
             'user'=>'required|integer',       
         ]);
@@ -252,7 +252,7 @@ class BettingController extends Controller
             // Placing Bet
 
 
-        foreach ($request->number as $key => $value) {
+        foreach ($request->numbers as $key => $value) {
 
 
 

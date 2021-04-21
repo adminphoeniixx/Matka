@@ -22,6 +22,7 @@ class HomeController extends Controller
         $login = $request->validate([
             'user_id'=>'required|string'
         ]);
+        
 
     	date_default_timezone_set('Asia/Kolkata');
 		$date=date("Y-m-d");

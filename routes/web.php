@@ -12,7 +12,7 @@ use App\Mail\UserRegisterMail;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');;
 
 Route::get('/email', function () {
     return new UserRegisterMail();
@@ -22,6 +22,9 @@ Route::get('/email', function () {
 Route::get('reset','PostController@home')->name('password.reset');
 
 
+ Route::get('about-us', [HomeController::class, 'aboutus'])->name('aboutus');
+Route::get('how-to-play', [HomeController::class, 'howtoplay'])->name('howtoplay');
+Route::get('terms-and-conditions', [HomeController::class, 'termsandconditions'])->name('termsandconditions');
 
 
 

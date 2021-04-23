@@ -31,6 +31,8 @@ use TCG\Voyager\Events\BreadImagesDeleted;
 
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 
+use App\Notifications\RegisterUser;
+
 
 
 
@@ -94,6 +96,11 @@ class UserController extends Controller
        $data->role_id = $request->role;
        $data->referral_code = $request->code;
        $data->save();
+
+
+       $data->notify(new InvoicePaid($data));
+
+
 
        $wallet = new Wallet;
        $wallet->user_id = $data->id;

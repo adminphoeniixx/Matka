@@ -1,0 +1,1154 @@
+body{
+    background: #1F1E1E;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+}
+a:hover {
+    color: #FCCC34 !important;
+    text-decoration: none;
+}
+.m-both{
+    margin: 40px 0;
+}
+#dcomapny, #Dmarket,#dfaq{
+    margin-bottom: 50px;
+}
+#bannercard{
+    background: #272727;
+    padding: 0 0 30px;
+}
+#bannercard .banner{
+    background: transparent linear-gradient(125deg, #FFAE00 0%, #F9E866 100%) 0% 0% no-repeat padding-box;
+    border-radius: 20px;
+    box-shadow: 0px 3px 6px #00000029;
+    padding: 50px;    
+    position: relative;
+    margin-top: 20px;
+}
+.banner .col-md-6:first-child{
+    text-align: center;
+}
+.banner-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+.banner-info h3{
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 42px;
+    color: #272727;
+}
+.banner-info .btn-app{
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 10px;
+    padding: 10px 30px;
+    outline: none;
+    background: #272727 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 8px;
+}
+#usercard .col-md-6{
+    DISPLAY: FLEX;
+    padding-top: 10px;
+    background: #272727 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+#usercard h3{
+ font-size: 40px;
+ font-weight: 600;
+}
+#usercard p{
+    font-size: 20px;
+    font-weight: 400;
+    color: #A7A7A7;
+}
+#usercard .horizontal-line{
+    content: '';
+    width: 2px;
+    height: 60px;
+    background: #474747;
+}
+#dcomapny h2, h2.heading, h2.headingmain{
+    font-size: 36px;
+}
+h2.heading > span, h2.headingmain >span{ 
+    color: #FBD03D;
+}
+.dc-box{
+    background: #272727;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    border-radius: 14px;
+    padding-top: 75px;
+    margin-top: 40px;
+    box-shadow: 0px 3px 6px #00000029;
+}
+.dc-box > span{
+    background: transparent linear-gradient(154deg, #FFAE00 0%, #F9E866 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    position: absolute;
+    top: -60px;
+    color: #1F1E1E;
+    font-weight: 600;
+    width: 120px;
+    height: 120px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 62px;
+    border: 6px solid #1F1E1E;
+}
+.dc-box h3{
+    font-size: 26px;
+    font-weight: 600;
+}
+.dc-box > p{
+    font-size: 18px;
+    line-height: 30px;
+    font-weight: 300;
+}
+.SelectGamebox{
+    box-shadow: 1px 1px 4px #0000004f;
+    border-radius: 10px;
+    padding: 3px;
+}
+.SelectGame{
+    display: flex;
+    justify-content: center;
+    padding: 7px;
+    background: #1f1e1e 0% 0% no-repeat padding-box;
+    box-shadow: 1px 1px 4px #0000004f;
+    border-radius: 6px;
+}
+.SelectGame > p {
+    font-size: 16px;
+    font-weight: 500;
+    padding-bottom: 7px;
+    width: 50%;
+    margin: 10px;
+}
+.SelectGame > p:first-child{
+    border-bottom: 2px solid #FCCC34;
+}
+.SelectGame > span {
+    width: 50px;
+    height: 50px;
+    background: #272727;
+    margin: 4px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    font-size: 18px;
+    font-weight: 500;
+}
+.SelectGame > span p.prize{
+    font-size: 10px;
+    margin: 0;
+    background: #FCCC34;
+    color: #1F1E1E;
+    width: 70%;
+    border-radius: 2px;
+}
+#Dmarket .col-auto, #Dreview .col-auto, .dfaq{
+    width: 50%;
+}
+.cardbox{
+  display: flex;
+  padding: 30px 0px 30px 22px;
+  justify-content: space-between;
+  align-items: center;
+  background: #272727 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 12px;
+}
+.cardbox .marketlogo{
+    border: 8px solid #FCCC34;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 50%;
+    text-align: center;
+    width: 150px;
+    height: 150px;
+    padding: 10px;
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.cardbox h3{
+    font-size: 32px;
+    font-weight: 600;
+}
+.cardbox p{
+    font-size: 22px;
+    font-weight: 300;
+    color: #D1D1D1;
+}
+.cardbox  p.result{        
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 79px;
+    font-weight: 700;
+    color: #1F1E1E;
+    margin: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    background: transparent linear-gradient(151deg, #FFAE00 0%, #F9E866 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+}
+.rating{
+    text-align: center;
+    width: 30%;
+}
+.rating p{
+    font-size: 58px;
+    color: #FCCC34;
+    background:#1F1E1E;
+    font-weight: 600;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+    margin: 0 auto;
+}
+.rating-star{
+    background: #1F1E1E;
+    color: #FCCC34;
+    padding: 12px 15px 12px;
+    border-radius: 10px;
+}
+.rating-star i.fa{
+    font-size: 20px;
+}
+.ratingbox{
+  display: flex;
+  padding: 30px 0px 30px 22px;
+  align-items: center;
+  background: #272727 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 12px;
+}
+.rating-bar{
+    width: 60%;
+    margin-left: 20px;    
+}
+.probox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 20px 0;
+}
+p.num{
+    font-size: 24px;
+    margin: 0;
+    padding-right: 15px;
+}
+.rating-bar .progress{
+    width: 100%;
+    background: #1F1E1E;
+    border-radius: 1rem;
+    height: 12px;
+}
+.rating-bar .progress-bar{
+    background: transparent linear-gradient(95deg, #FFAE00 0%, #F9E866 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 30px;
+}
+.winners{
+    margin: 90px 0 60px;
+}
+.winner{
+    text-align: center;
+    border-radius: 10px;
+    background: #272727 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+}
+.winner p{
+    font-size: 27px;
+    padding: 20px 0;
+    margin: 0;
+}
+.winner h2{
+    font-size: 48px;
+    background: #FCCC34;
+    padding: 15px 0;
+    margin: 0;
+    color: #1F1E1E;
+    font-weight: 700;
+}
+.winner h3{
+    font-size: 19px;
+    padding: 30px 0;
+    margin: 0;
+    font-weight: 300;
+}
+#brands-carousel .owl-dots {
+    margin-top: 25px;
+}
+#brands-carousel .owl-dot {
+    outline: none;
+}
+#brands-carousel .owl-dots .owl-dot span {
+    width: 18px;
+    height: 18px;
+    background: #272727 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+}
+#brands-carousel .owl-dot.active span, #brands-carousel .owl-dot:hover span {
+    background: #FCCC34;
+}
+.dfaq .card-header{
+    padding: 20px 10px;
+}
+.dfaq .card{
+    background-color: #272727;
+    border-radius: .7rem;
+    margin-bottom: 20px;
+}
+.dfaq .card-body {
+    font-size: 18px;
+    font-weight: 200;
+}
+.dfaq .card .btn-link {
+    font-weight: 300;
+    color: white;
+    font-size: 20px;
+    box-shadow: none;
+    text-decoration: none;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+}
+.dfaq .card .btn-link:hover {
+    color: #FBD03D;
+}
+.dfaq .card .card-header .btn-link:after {
+  content: "\f077";
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 800;
+}
+.dfaq .card .card-header .btn-link.collapsed:after {
+  content: "\f078 ";
+}
+#footer{
+    background: #262626;
+    padding: 40px 0 10px;
+}
+.social-icon{
+    margin: 15px 0 0;
+}
+ul.links{
+    list-style: none;
+    padding: 0;
+}
+ul.links a{
+    font-size: 18px;
+    color: white;
+    font-weight: 300;
+    display: block;
+    text-decoration: none;
+    transition: all .45s;
+    padding-left:0;
+    margin-bottom: 5px;
+}
+ul.links a:hover {
+    padding-left: 10px;
+    color: #FCCC34;
+}
+.contact-details p.title {
+    font-size: 18px;
+    color: white;
+    font-weight: 300;
+    margin: 15px 0 15px;
+}
+.contact-details p.title:first-child{
+    margin-top: 0;
+}
+.contact-details .phone a{
+    font-size: 16px;
+    color: white;
+    font-weight: 200;
+    padding-left: 10px;
+}
+.contact-details .addres{
+    text-decoration: none;
+    font-size: 16px;
+    color: white;
+    font-weight: 200;
+}
+.message{
+    padding-top: 30px;
+}
+.message p{
+    font-size: 16px;
+    margin: 15px auto 10px;
+    font-weight: 100;
+    width: 55%;
+}
+.message .horizontal-line{
+    margin: 0 auto;
+    content: '';
+    width: 50%;
+    height: 1px;
+    background: #868686;
+}
+.bannertwo{
+    padding: 50px 50px 0;
+    background: transparent linear-gradient(128deg, #FFAE00 0%, #F9E866 100%) 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 20px;
+}
+.bannertwo h3{
+    font-size: 36px;
+    font-weight: 600;
+    text-align: center;
+    color: #272727;
+    margin-bottom: 40px;
+}
+.bannertwo p{
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 30px;
+    color: #272727;
+    margin: 0;
+}
+.B-con{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.B-con span{
+    background: #272727;
+    display: inline-block;
+    padding: 20px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.B-con span img{
+    max-width: fit-content;
+}
+.B-playstore{
+    margin: 30px 0;
+}
+.B-playstore img:first-child{
+    margin-right: 15px;
+}
+.bannertwo .B-con:last-child img{
+    margin-right: 15px;
+}
+.stricky-downloadapp {
+    display: none;
+}
+#top-nav{
+    background: #272727 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    padding: 5px 0;
+}
+#top-nav .navbar-toggler{
+    border-color: #000;
+    outline: none;
+    box-shadow: none;
+}
+#top-nav .navbar-toggler .fa-bars{
+    font-size: 24px;
+    color: #000;
+}
+#top-nav a.nav-link {
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all .45s;
+}
+#TCsection .container{
+    background: #272727 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 12px;
+    margin: 50px auto;
+    padding: 20px 50px;
+}
+#TCsection ul li{
+    font-size: 20px;
+    margin-bottom: 30px;
+    list-style: none;    
+    position: relative;
+    padding-left: 15px;
+}
+#TCsection ul li:before {
+    background: transparent url(images/right-arrow.png) 0 0 no-repeat;
+    content: "";
+    width: 30px;
+    height: 20px;
+    position: absolute;
+    left: -30px;
+    top: 8px;  
+}
+#Howto-play-section .container{
+    margin: 50px auto;
+    padding: 20px 50px 50px;
+    background: #272727 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 12px;
+}
+#Howto-play-section p{
+    font-size: 20px;
+    line-height: 31px;
+    text-align: center;
+}
+#Howto-play-section .b-custom{
+    border: 1px solid #a7a6a6;
+    padding: 10px 30px;
+    border-radius: 5px;
+}
+#Howto-play-section .table-borderless{
+    margin-bottom: 0;
+}
+#Howto-play-section .table-borderless thead th{
+  color: #FCCC34;
+  font-size: 20px;
+  font-weight: 500;
+}
+#Howto-play-section .table-borderless tr td{
+    color: #fff;
+    font-size: 18px;
+    line-height: 32px;
+}
+#bannercard .logo{
+    background: #1f1e1e;
+    display: inline-block;
+    padding: 14px;
+    position: relative;
+}
+#bannercard .logo::before{
+    content: '';
+    width: 0;
+    height: 0;
+    border-bottom: 120px solid transparent;
+    border-right: 30px solid #1f1e1e;
+    top: 0px;
+    left: -30px;
+    position: absolute;
+}
+#bannercard .logo::after{
+    content: '';
+    width: 0;
+    height: 0;
+    border-bottom: 120px solid transparent;
+    border-left: 30px solid #1f1e1e;
+    top: 0px;
+    right: -30px;
+    position: absolute;    
+}
+@media only screen and (max-width:1920px){
+ .container{
+    max-width: 1600px;
+ }
+}
+@media only screen and (max-width:1440px){
+    .container{
+       max-width: 1200px;
+    }
+    .banner-info h3 {
+        font-size: 28px;
+        line-height: 38px;
+    }
+    .banner-info .btn-app {
+        font-size: 16px;
+        padding: 10px 25px;
+    }
+    #usercard h3 {
+        font-size: 32px;
+    }
+    #usercard p {
+        font-size: 14px;
+    }
+    #dcomapny h2, h2.heading, h2.headingmain {
+        font-size: 28px;
+    }
+    .dc-box > span {
+        top: -45px;
+        width: 90px;
+        height: 90px;
+        font-size: 42px;
+    }
+    .dc-box h3 {
+        font-size: 20px;
+    }
+    .dc-box > p {
+        font-size: 16px;
+        min-height: 60px;
+    }
+    #dcomapny, #Dmarket, #dfaq {
+        margin-bottom: 20px;
+    }
+    .m-both {
+        margin: 35px 0;
+    }
+    .cardbox .marketlogo {
+        border: 7px solid #FCCC34;
+        width: 130px;
+        height: 130px;
+        margin-left: 10px;
+    }
+    .cardbox h3 {
+        font-size: 24px;
+    }
+    .cardbox p {
+        font-size: 16px;
+    }
+    .cardbox p.result {
+        width: 100px;
+        height: 100px;
+        font-size: 44px;
+    }
+    .rating p {
+        font-size: 36px;
+        width: 100px;
+        height: 100px;
+    }
+    .rating-star {
+        padding: 6px 12px 8px;
+    }
+    .rating-star i.fa {
+        font-size: 14px;
+    }
+    p.num {
+        font-size: 16px;
+    }
+    .rating-bar .progress {
+        height: 10px;
+    }
+    .winner p {
+        font-size: 22px;
+        padding: 14px 0;
+    }
+    .winner h2 {
+        font-size: 28px;
+        padding: 10px 0;
+    }
+    .winner h3 {
+        font-size: 14px;
+        padding: 20px 0;
+    }
+    #brands-carousel .owl-dots .owl-dot span {
+        width: 12px;
+        height: 12px;
+    }
+    .dfaq .card .btn-link {
+        font-size: 16px;
+    }
+    .dfaq .card-header {
+        padding: 7px 5px;
+    }
+    .dfaq .card-body {
+        font-size: 15px;
+    }
+    .dfaq .card {
+        margin-bottom: 14px;
+    }
+    ul.links a {
+        font-size: 16px;
+    }
+    .contact-details p.title {
+        font-size: 16px;
+    }
+    .contact-details .addres {
+        font-size: 14px;
+    }
+    .contact-details .phone a {
+        font-size: 14px;
+    }
+    .message p {
+        font-size: 14px;
+        width: 64%;
+    }
+    .bannertwo h3 {
+        font-size: 32px;
+        margin-bottom: 36px;
+    }
+    .bannertwo p {
+        font-size: 16px;
+    }
+    .B-con span {
+        padding: 16px;
+        margin-right: 12px;
+    }
+    .bannertwo .B-con:last-child img {
+        margin-right: 12px;
+    }
+    #TCsection .container {
+        margin: 40px auto;
+        padding: 10px 40px;
+    }
+    #Howto-play-section .container {
+        margin: 40px auto;
+        padding: 10px 40px 40px;
+    }
+    #TCsection ul li {
+        font-size: 18px;
+        margin-bottom: 20px;
+        padding-left: 10px;
+    }
+    #Howto-play-section p {
+        font-size: 18px;
+        line-height: 30px;
+    }
+    #Howto-play-section .table-borderless thead th {
+        font-size: 18px;
+    }
+    #Howto-play-section .table-borderless tr td {
+        font-size: 16px;
+        line-height: 30px;
+    }
+    #top-nav a.nav-link {
+        font-size: 16px;
+        font-weight: 500;
+    }
+}
+@media only screen and (max-width: 1200px){
+    .container {
+        max-width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    #bannercard .banner {
+        border-radius: 0;
+    }
+    #TCsection .container {
+        margin-top: 0;
+        border-radius: 0;
+    }
+    #Howto-play-section .container {
+        margin-top: 0;
+        border-radius: 0;
+    }
+}
+@media only screen and (max-width: 1024px){
+    .container {
+        max-width: 900px;
+    }
+    .bannertwo {
+      border-radius: 0;
+    }
+    .bannertwo h3 {
+        font-size: 26px;
+        margin-bottom: 30px;
+    }
+    .bannertwo p {
+        font-size: 15px;
+    }
+    #Howto-play-section p {
+        font-size: 17px;
+    }
+}
+@media only screen and (max-width: 1024px){
+    .container {
+        max-width: 100%;
+    }
+    .winners {
+        margin: 60px 0 40px;
+    }
+    .SelectGame {
+        padding: 5px;
+    }
+    .SelectGame > p {
+        font-size: 15px;
+        margin: 7px;
+    }
+    .SelectGame > span {
+        width: 40px;
+        height: 40px;
+        font-size: 17px;
+    }
+}
+@media only screen and (max-width: 768px){
+    #usercard h3 {
+        font-size: 24px;
+    }
+    #usercard p {
+        font-size: 12px;
+    }
+    #dcomapny h2, h2.heading, h2.headingmain {
+        font-size: 20px;
+    }
+    .dc-box  > span {
+        top: -35px;
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+    }
+    .banner-info h3 {
+        font-size: 24px;
+        line-height: 34px;
+    }
+    .dc-box h3 {
+        font-size: 18px;
+    }
+    .dc-box > p {
+        font-size: 14px;
+        min-height: 90px;
+    }
+    #Dmarket .col-auto, #Dreview .col-auto, .dfaq {
+        width: 60%;
+    }
+    .cardbox {
+        padding: 20px 0px 20px 20px;
+    }
+    .cardbox h3 {
+        font-size: 20px;
+    }
+    .cardbox p {
+        font-size: 14px;
+    }
+    .cardbox p.result {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+    }
+    .rating p {
+        font-size: 26px;
+        width: 80px;
+        height: 80px;
+    }
+    .rating-star i.fa {
+        font-size: 12px;
+    }
+    .winner p {
+        font-size: 18px;
+        padding: 10px 0;
+    }
+    .winner h2 {
+        font-size: 22px;
+        padding: 10px 0;
+    }
+    .winner h3 {
+        font-size: 12px;
+        padding: 16px 0;
+    }
+    .dfaq .card .btn-link {
+        font-size: 14px;
+    }
+    .dfaq .card-body {
+        font-size: 13px;
+    }
+    ul.links a {
+        font-size: 14px;
+    }    
+    .message p {
+        width: 90%;
+    }
+    #TCsection ul li {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+    #Howto-play-section .container {
+        padding: 10px 40px 20px;
+    }
+    #Howto-play-section p {
+        font-size: 16px;
+        line-height: 28px;
+    }
+    .m-both {
+        margin: 25px 0;
+    }
+    #Howto-play-section .table-borderless thead th {
+        font-size: 16px;
+    }
+    #Howto-play-section .table-borderless tr td {
+        font-size: 14px;
+        line-height: 24px;
+    }
+    .SelectGame > span {
+        font-size: 16px;
+    }
+}
+@media only screen and (max-width: 767px){
+    #usercard .col-md-6 {
+        width: 100%;
+    }
+    #usercard .col-md-6 span:nth-child(1), #usercard .col-md-6 span:nth-child(3){
+        width: 50%;
+    }
+    .dc-box > p {
+        min-height: 60px;
+    }
+    #footer {
+        padding: 40px 40px 10px;
+        text-align: center;
+    }
+    ul.links {
+        margin: 20px 0 0;
+    }
+    ul.links a {
+        margin: 10px 0 0;
+    }
+    .contact-details p.title:first-child {
+        margin-top: 15px;
+    }
+    .cardbox .marketlogo {
+        width: 110px;
+        height: 110px;
+        margin-left: 0px;
+    }
+    #bannercard .banner {
+        padding: 10px 20px 0;
+    }
+    #bannercard {
+        padding: 0;
+    }
+    .banner-info {
+        text-align: center;
+        align-items: center;
+        margin: 20px 0;
+    }
+    .banner-info .btn-app {
+        width: 100%;
+    }
+    .B-playstore {
+        margin: 20px 0;
+        text-align: center;
+    }
+    .bannertwo .B-con:first-child {
+        padding-top: 40px;
+    }
+    .B-con {
+        padding: 0 10px 30px;
+    }
+    .stricky-downloadapp {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: block;
+        padding-left: 16px;
+        padding-right: 16px;
+        box-sizing: border-box;
+        -webkit-box-shadow: 0px 0px 8px 0px rgb(194 194 194);
+        -moz-box-shadow: 0px 0px 8px 0px rgba(194,194,194,1);
+        box-shadow: 0px 0px 8px 0px rgb(194 194 194);
+        background: white;
+    }
+    .stricky-downloadapp a {
+        display: block;
+        font-size: 16px;
+        color: #fff !important;
+        background: #FCCC34;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-decoration: none;
+        text-align: center;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    .sticky {
+        position: -webkit-sticky;
+        position: sticky;
+        bottom: 0;
+        z-index: 9999;
+    }
+}
+@media only screen and (max-width: 575px){
+ .banner-info h3 span{
+   display: block;
+ }
+}
+@media only screen and (max-width: 480px){
+    #usercard h3 {
+        font-size: 18px;
+    }
+    #dcomapny h2, h2.heading, h2.headingmain {
+        font-size: 16px;
+    }
+    .dc-box {
+        margin:30px 20px 20px;
+        padding-top: 60px;
+    }
+    .dc-box > p {
+        line-height: 24px;
+        min-height: auto;
+    }
+    #Dmarket .col-auto, #Dreview .col-auto, .dfaq {
+        width: 80%;
+    }
+    .cardbox p.result {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+    .cardbox h3 {
+        font-size: 18px;
+    }
+    .cardbox p {
+        font-size: 12px;
+    }
+    .rating {
+        width: 40%;
+    }
+    .rating-bar {
+        margin-left: 0;
+    }
+    .message p {
+        width: 100%;
+    }
+    #dcomapny, #Dmarket, #dfaq {
+        margin-bottom: 10px;
+    }
+    .winners {
+        margin: 40px 0 30px;
+    }
+    .bannertwo .B-con:first-child {
+        padding-top: 30px;
+    }
+    .B-con {
+        padding: 0 10px 10px;
+    }
+    .bannertwo .B-con:last-child img {
+        margin-right: 10px;
+    }
+    .banner-info h3 {
+        font-size: 22px;
+        line-height: 30px;
+    }
+    .bannertwo h3 {
+        font-size: 20px;
+        margin-bottom: 24px;
+    }
+    .bannertwo p {
+        font-size: 14px;
+        line-height: 24px;
+    }
+    .B-con span {
+        padding: 14px;
+        margin-right: 10px;
+    }
+    .B-playstore {
+        margin: 0 0 30px;
+    }
+    #TCsection ul li {
+        font-size: 14px;
+    }
+    #Howto-play-section p {
+        font-size: 14px;
+        font-weight: 300;
+    }
+    #Howto-play-section .table-borderless thead th {
+        font-size: 14px;
+    }
+    #Howto-play-section .table-borderless tr td {
+        font-size: 13px;
+        line-height: 18px;
+    }
+    #Howto-play-section .b-custom {
+        padding: 5px 20px;
+        border-radius: 5px;
+    }
+    #top-nav a.nav-link {
+        font-size: 14px;
+    }
+    .SelectGame > p {
+        font-size: 14px;
+    }
+    .SelectGame > span {
+        width: 100%;
+        font-size: 15px;
+    }
+    .stricky-downloadapp a {
+        font-size: 14px;
+    }
+}
+@media only screen and (max-width: 375px){
+    #usercard h3 {
+        font-size: 16px;
+    }
+    h2.headingmain{        
+        line-height: 26px;
+    }
+    #dcomapny h2, h2.heading {
+        line-height: 26px;
+        margin: 0 60px 0;
+    }
+    #Dmarket .col-auto, #Dreview .col-auto, .dfaq {
+        width: 90%;
+    }
+    .rating p {
+        font-size: 20px;
+        width: 70px;
+        height: 70px;
+    }
+    .cardbox h3 {
+        font-size: 16px;
+    }
+    .cardbox {
+        padding: 20px 0px 20px 15px;
+        flex-direction: column;
+        padding-left: 0;
+        text-align: center;
+    }
+    .cardbox p.result {
+        width: 50px;
+        height: 50px;
+        font-size: 18px;
+    }
+    .dfaq .card .btn-link {
+        font-size: 12px;
+    }
+    #TCsection ul li {
+        padding-left: 5px;
+    }
+    .cardbox .marketlogo {
+        width: 90px;
+        height: 90px;
+    }
+    .ratingbox {
+        flex-direction: column;
+        padding: 20px 10px;
+    }
+    .rating-bar {
+        margin: 20px 0 0;
+        width: 100%;
+    }
+    .cardbox .marketc{
+        margin-top: 20px;
+    }
+    .cardbox p.result{
+        border-radius: 10px;
+    }
+}
+@media only screen and (max-width: 320px){    
+    
+    #usercard h3 {
+        font-size: 15px;
+    }
+    #usercard p {
+        font-size: 10px;
+    }
+    h2.headingmain{
+        line-height: 24px;
+    }
+    #dcomapny h2, h2.heading {
+        line-height: 24px;
+        margin: 0 30px 0;
+    }
+    .dc-box h3 {
+        font-size: 16px;
+    }
+}

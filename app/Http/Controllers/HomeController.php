@@ -12,4 +12,23 @@ class HomeController extends Controller
     	Artisan::call('install:passport');
 
     }
+
+
+    public function aboutus(){
+    	return view('aboutus');
+    }
+
+
+
+     public function howtoplay(){
+    	return view('howtoplay');
+    }
+
+
+    public function termsandconditions(){
+    	return view('termsandconditions');
+    }
+
+
+    
 }

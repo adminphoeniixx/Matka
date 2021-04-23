@@ -13,6 +13,7 @@ use App\LiveGame;
 use App\Events\Registration;
 use Str;
 use Illuminate\Support\Facades\Password;
+use App\Notifications\RegisterUser;
 class LoginController extends Controller
 {
 
@@ -103,11 +104,12 @@ class LoginController extends Controller
 			       $data->save();
 
 
+                //$data->notify(new RegisterUser($data));
+
+
                     //event(new Registration($data->mobile));
 
 			       
-
-
                    if(setting('admin.joining_bonus')>0){
 
 
@@ -130,10 +132,14 @@ class LoginController extends Controller
                     $transaction->save();
 
                    }
-                   
 
 
-			       return response(['status'=>'success','message'=>'Registration Successfull.','user'=>$data]);
+    if(!(Auth::attempt(['email' => $request->email_address, 'password' => $request->password]))){
+        return response(['status'=>'error','message'=>'Something went wrong.']);
+      }else{
+        $accessToken  = Auth::user()->createToken('Token Name')->accessToken;
+        return response(['status'=>'success','message'=>'Registration Successfull.','user'=>$data, 'access_token'=>$accessToken]);
+      }
 
     	
 

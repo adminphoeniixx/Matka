@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="33" height="33" viewBox="0 0 33 33">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="1.308" y2="1.651" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#ffae00"/>
+      <stop offset="1" stop-color="#f9e866"/>
+    </linearGradient>
+  </defs>
+  <g id="telegram" transform="translate(-355 -4095)">
+    <rect id="Rectangle_575" data-name="Rectangle 575" width="33" height="33" rx="5" transform="translate(355 4095)" fill="url(#linear-gradient)"/>
+    <path id="telegram-2" data-name="telegram" d="M7.393,12.347l-.312,4.384a1.09,1.09,0,0,0,.871-.422l2.091-2,4.332,3.172c.794.443,1.354.21,1.568-.731L18.786,3.429h0c.252-1.174-.425-1.634-1.2-1.346L.874,8.482C-.266,8.925-.249,9.56.681,9.849l4.273,1.329,9.925-6.21c.467-.309.892-.138.542.171Z" transform="translate(362.174 4101.609)" fill="#272727"/>
+  </g>
+</svg>

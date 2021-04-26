@@ -134,23 +134,35 @@
             $date=date("Y-m-d");
             $time=date("H:m:s");  
             $results = \DB::table('winning_number')
-            ->leftJoin('live_game_id','live_games.id','winning_number.live_game_id')
-            ->leftJoin('companies','companies.id','live_games.live_game_id')
+            ->leftJoin('live_games','live_games.id','winning_number.live_game_id')
+            ->leftJoin('companies','companies.id','live_games.company')
             ->select('companies.name','companies.image','winning_number.number')
             ->whereDate('winning_number.created_at',$date)
+            ->get();
             @endphp
+
+            @forelse($results as $result)
+
             <div class="col-auto mb-2">
                 <div class="cardbox">
-                    <div class="marketlogo"><img src="{{asset('images/dubai market.svg')}}" alt="MatkaApp"></div>
+                    <div class="marketlogo"><img src="{{env('APP_URL')}}/storage/{{$result->image}}" alt="MatkaApp"></div>
                     <div class="marketc">
-                        <h3>Dubai Market</h3>
+                        <h3>{{$result->name}}</h3>
                         <p>Todays winner Number</p>
                     </div>
                     <p class="result">
-                        06
+                        {{$result->number}}
                     </p>
                 </div>
             </div>
+
+
+            @empty
+
+            <h5 class="text-center">Results will be announced soon.</h5>
+
+            @endif
+            
 
              
 
@@ -220,37 +232,42 @@
                 </div>
             </div>
         </div>  
+
+
+        @php
+
+        $winners = \DB::table('winners')
+        ->leftJoin('users','users.id','winners.user_id')
+        ->leftJoin('live_games','live_games.id','winners.live_game_id')
+        ->leftJoin('companies','companies.id','live_games.company')
+        ->select('users.name','winners.profit','companies.name as cname')
+        ->orderBy('winners.profit', 'desc')
+        ->whereDate('winners.created_at',$date)
+        ->limit(6)
+        ->get();
+
+        @endphp
+
+        @if($winners)
+
         <div class="row winners">
             <div class="col-md-12">
                 <div id="brands-carousel" class="owl-carousel owl-theme">
-                    <div class="item winner">
-                        <p>Sonu Sharma</p>
-                        <h2>₹ 20 Lakhs</h2>
-                        <h3>Winner of Dubai Market</h3>
+                    @foreach($winners as $winner)
+                     <div class="item winner">
+                        <p>{{$winner->name}}</p>
+                        <h2>₹ {{$winner->profit}}</h2>
+                        <h3>Winner of {{$winner->cname}}</h3>
                     </div>
-                    <div class="item winner">
-                        <p>Happy Singh</p>
-                        <h2>₹ 21 Lakhs</h2>
-                        <h3>Winner of Faridabad Game</h3>
-                    </div>
-                    <div class="item winner">
-                        <p>Rahul Jangra</p>
-                        <h2>₹ 17 Lakhs</h2>
-                        <h3>Winner of Gaziabad Game</h3>
-                    </div>
-                    <div class="item winner">
-                        <p>Sonu Sharma</p>
-                        <h2>₹ 20 Lakhs</h2>
-                        <h3>Winner of Gali Market</h3>
-                    </div>
-                    <div class="item winner">
-                        <p>Happy Singh</p>
-                        <h2>₹ 20 Lakhs</h2>
-                        <h3>Winner of Disawer Market</h3>
-                    </div>
+                    @endforeach
+                   
+                  
                 </div>
             </div>
-        </div>      
+        </div>
+
+        @endif
+      
     </div>
 </section>
 <section id="bannercard">

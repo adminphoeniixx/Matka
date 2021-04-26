@@ -519,13 +519,131 @@ public function custom($id, Request $request){
 
 
          if ($wallet_search) {
+
+          $user = User::find($withdrawal->user_id);
+
+                $fields = array();
+                $fields["name"] = $withdrawal->name;
+                $fields["email"] = $user->email;
+                $fields["contact"] = $withdrawal->mobile_number;
+                $fields["reference_id"] = "customer".$withdrawal->id;
+                $fields["type"] = "customer";
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'https://api.razorpay.com/v1/contacts');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_USERPWD, "rzp_test_u7twUzwElKvqSY:xPxLD58KJfVOkmOXc45Lh9Ag");
+                $headers = array();
+                $headers[] = 'Accept: application/json';
+                $headers[] = 'Content-Type: application/json';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                $response = curl_exec($ch);
+                $result = json_decode($response,true);
+
+
+                if (array_key_exists('error',$result)) {
+
+                  //Error in contact api
+
+                  return back()->with(['message' =>"Error : ".$result['error']['description'] , 'alert-type' => 'error']);;
+                  }else{
+
+                     //success in contact api
+
+
+                   // dd($result);
+
+
+                    // calling
+
+                $fields_fund = array();
+                $bank_account = array();
+                $bank_account['name']=$withdrawal->bank_name;
+                $bank_account['ifsc']=$withdrawal->ifsc_code;
+                $bank_account['account_number']=$withdrawal->account_number;
+
+                $fields_fund["contact_id"] = $result['id'];
+                $fields_fund["account_type"] = "bank_account";
+                $fields_fund["bank_account"] = $bank_account;
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'https://api.razorpay.com/v1/fund_accounts');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields_fund));
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_USERPWD, "rzp_test_u7twUzwElKvqSY:xPxLD58KJfVOkmOXc45Lh9Ag");
+                $headers = array();
+                $headers[] = 'Accept: application/json';
+                $headers[] = 'Content-Type: application/json';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                $response = curl_exec($ch);
+                $result_fund = json_decode($response,true);
+
+
+                if (array_key_exists('error',$result)) {
+
+                  //Error in contact api
+
+                  return back()->with(['message' =>"Error : ".$result['error']['description'] , 'alert-type' => 'error']);
+
+                  }else{
+
+
+                $fields_payout = array();
+                $fields_payout['account_number']=$result_fund['bank_account']['account_number'];
+                $fields_payout['fund_account_id']=$result_fund['id'];
+                $fields_payout['amount']=$withdrawal->amount_requested;
+                $fields_payout["currency"] = "INR";
+                $fields_payout["mode"] = "IMPS";
+                $fields_payout["purpose"] = "Wallet Withdraw";
+                $fields_payout["queue_if_low_balance"] = true;
+                $fields_payout["reference_id"] = "withdrawal_".$result_fund['id'];
+                $fields_payout["narration"] = "Fund Transfer";
+              
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, 'https://api.razorpay.com/v1/payouts');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields_payout));
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_USERPWD, "rzp_test_u7twUzwElKvqSY:xPxLD58KJfVOkmOXc45Lh9Ag");
+                $headers = array();
+                $headers[] = 'Accept: application/json';
+                $headers[] = 'Content-Type: application/json';
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                $response = curl_exec($ch);
+                $result_payout = json_decode($response,true);
+
+                dd($result_payout);
+
+                  }
+                      
+                     
+                  }
+
+
+          curl_close($ch);
+
+          
+
+
+
+
+
+
+
+
+
+
+
          $wallet_update = Wallet::find($wallet_search->id);
          $wallet_update->winning_balance -=  $request->amount;
          $wallet_update->save();
 
 
 
-         $transaction = new Transaction;
+        $transaction = new Transaction;
         $transaction->transaction_type = 2;
         $transaction->user_id = $request->userid ;
         $transaction->amount = $request->amount ;
@@ -547,7 +665,7 @@ public function custom($id, Request $request){
        
       }else{
 
-        return back()->with(['message' => "Insufficient balance in the wallet.", 'alert-type' => 'error']);;
+        return back()->with(['message' => "Insufficient balance in the wallet.", 'alert-type' => 'error']);
 
       }
 

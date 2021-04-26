@@ -91,6 +91,30 @@ class UserController extends Controller
 
 
 
+     public function transactionhistory(Request $request){
+
+        $validator = $request->validate([
+            'user_id'=>'required|integer', 
+        ]);
+
+        $data = Transaction::join('transaction_types','transaction_types.id','transactions.transaction_type')
+        ->where('transactions.user_id',$request->user_id)
+        ->select('transactions.*','transaction_types.name as transaction_type')
+        ->latest()
+        ->get();
+
+        return response(['status'=>'success','message'=>'Data fetched successfully.','history'=>$data]);
+
+
+    }
+
+
+
+
+    
+
+
+
 
     public function getcommision(Request $request){
 

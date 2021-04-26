@@ -28,9 +28,9 @@
             </div>
             <div class="col-md-3 col-sm-6 contact-details">
                 <p class="title">Contact Us</p>
-                <p class="phone"><img src="{{asset('images/phoneicon.svg')}}" alt="Matka"><a href="tel:+919515845525">+91 9515845525</i></a></p>
+                <p class="phone"><img src="{{asset('images/phoneicon.svg')}}" alt="Matka"><a href="tel:{{setting('site.contact_number')}}">{{setting('site.contact_number')}} </i></a></p>
                 <p class="title">Corporate Office</p>
-                <p class="addres">Frist Floor, G-187, Sector 63 Rd, Block M, Mamura Sector 63, Noida, Uttar Pradesh 201301</p>
+                <p class="addres">{{setting('site.contact_address')}}</p>
             </div>
         </div>
         <div class="row message">

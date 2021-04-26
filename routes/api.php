@@ -58,6 +58,9 @@ Route::middleware('auth:api')->post('/withdraw-request','api\v1\UserController@w
 
 Route::middleware('auth:api')->post('/withdraw-history','api\v1\UserController@withdrawhistory');
 
+Route::middleware('auth:api')->post('/transaction-history','api\v1\UserController@transactionhistory');
+
+
 Route::middleware('auth:api')->post('/get-commision','api\v1\UserController@getcommision');
 
 Route::middleware('auth:api')->post('/exchange-commision','api\v1\UserController@exchangecommision');

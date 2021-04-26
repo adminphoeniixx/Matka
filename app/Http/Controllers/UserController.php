@@ -591,13 +591,13 @@ public function custom($id, Request $request){
 
 
                 $fields_payout = array();
-                $fields_payout['account_number']=$result_fund['bank_account']['account_number'];
+                $fields_payout['account_number']="2323230046184046";
                 $fields_payout['fund_account_id']=$result_fund['id'];
                 $fields_payout['amount']=$withdrawal->amount_requested;
                 $fields_payout["currency"] = "INR";
                 $fields_payout["mode"] = "IMPS";
-                $fields_payout["purpose"] = "Wallet Withdraw";
-                $fields_payout["queue_if_low_balance"] = true;
+                $fields_payout["purpose"] = "payout";
+                $fields_payout["queue_if_low_balance"] = false;
                 $fields_payout["reference_id"] = "withdrawal_".$result_fund['id'];
                 $fields_payout["narration"] = "Fund Transfer";
               

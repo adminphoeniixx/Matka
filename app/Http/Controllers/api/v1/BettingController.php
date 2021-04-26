@@ -33,8 +33,7 @@ class BettingController extends Controller
     {
         $validator = $request->validate([
             'live_game_id'=>'required|integer',
-            'number'=>'required|integer',
-            'amount'=>'required|integer',
+            'number'=>'required|string',
             'user'=>'required|integer',       
         ]);
 
@@ -45,12 +44,22 @@ class BettingController extends Controller
              return response(['status'=>'error','message'=>'User not found.']);
          }
 
-        $current_balance = Wallet::where('user_id',$request->user)->first();
 
-        if ($current_balance->deposit_balance<$request->amount) {
+
+        $numbers=json_decode($request->number,true);
+        $total_amount = array_sum($numbers);
+
+
+
+
+         $current_balance = Wallet::where('user_id',$request->user)->first();
+
+        if ($current_balance->deposit_balance < $total_amount) {
           
           return response(['status'=>'error','message'=>'Insufficient balance in wallet.']);
         }
+
+
 
 
         $check_game = LiveGame::find($request->live_game_id);
@@ -67,29 +76,36 @@ class BettingController extends Controller
             return response(['status'=>'error','message'=>'This game is unavailable.']);
 
         }
+         
 
 
         date_default_timezone_set('Asia/Kolkata');
 
         $date=date("Y-m-d");
         $time=date("H:m:s");
+
+
+
+        foreach ($numbers as $key => $value) {
+            $betting = new Betting;
+            $betting->live_game_id = $request->live_game_id;
+            $betting->number = $key;
+            $betting->amount = $value;
+            $betting->user = $request->user;
+            $betting->save();
+
+        }
   
 
             // Placing Bet
 
-            $betting = new Betting;
-            $betting->live_game_id = $request->live_game_id;
-            $betting->number = $request->number;
-            $betting->amount = $request->amount;
-            $betting->user = $request->user;
-            $betting->save();
-
+            
 
             // updating user wallet
 
             $user_wallet = Wallet::find($current_balance->id);
             if ($user_wallet) {
-                $user_wallet->deposit_balance -= $request->amount;
+                $user_wallet->deposit_balance -= $total_amount;
                 $user_wallet->save();
             }
 
@@ -128,7 +144,7 @@ class BettingController extends Controller
                     //calculating refferal percentage
 
                     $referral_percentage = setting('admin.referral_bonus_percentage');
-                    $referral_bonus = ($referral_percentage / 100) * $request->amount;
+                    $referral_bonus = ($referral_percentage / 100) * $total_amount;
                     
 
                     // find referral user account

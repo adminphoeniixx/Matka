@@ -93,11 +93,16 @@ Route::group(['prefix' => 'admin'], function () {
 
 Route::get('clear_cache', function () {
 
-    \Artisan::call('storage:link');
-    \Artisan::call('config:cache');
-    \Artisan::call('cache:clear');
 
-    dd("Cache is cleared");
+    if(Storage::isDirectory("April2021")){
+    dd("dir found");
+    }
+
+    // \Artisan::call('storage:link');
+    // \Artisan::call('config:cache');
+    // \Artisan::call('cache:clear');
+
+    // dd("Cache is cleared");
 
 });
 

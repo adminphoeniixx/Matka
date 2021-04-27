@@ -181,7 +181,7 @@ class LoginController extends Controller
 
                 $curl = curl_init();
 
-                curl_setopt_array($curl, array(
+                  curl_setopt_array($curl, array(
                   CURLOPT_URL => "https://api.msg91.com/api/v5/otp/verify?authkey=357859AufIJss760659e28P1&mobile=".urlencode($request->mobile_number)."&otp=".$request->otp."",
                   CURLOPT_RETURNTRANSFER => true,
                   CURLOPT_ENCODING => "",

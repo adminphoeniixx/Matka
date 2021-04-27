@@ -32,20 +32,23 @@ class HomeController extends Controller
 
     	$companies = Company::all();
     	$live_games = LiveGame::join('companies','companies.id','live_games.company')
-                       ->select('live_games.*','companies.*',\DB::raw('(SELECT COUNT(*) FROM bettings WHERE bettings.live_game_id = live_games.id) as players')) 
-    				  ->where('live_games.status',1)->first();
+                       ->select('live_games.*','companies.name',\DB::raw('(SELECT COUNT(*) FROM bettings WHERE bettings.live_game_id = live_games.id) as players')) 
+    				  ->where('live_games.status',1)
+                      ->where('live_games.is_result_declared',0)
+                      ->first();
 
         $live_results= LiveGame::join('companies','companies.id','live_games.company')
                        ->join('winning_number','live_games.id','winning_number.live_game_id')
-                       ->whereDate('live_games.created_at', '<=', $date)
-                       
+                       ->where('live_games.is_result_declared',1)
+                       ->whereDate('live_games.created_at', '=', $date)
                        ->get();             
 	
 
     	$upcoming_games = LiveGame::join('companies','companies.id','live_games.company')
     						  ->where('live_games.status',0)
     						  ->select('live_games.*','companies.name','companies.image','companies.bet_end_time','companies.bet_result_time')
-    						  ->whereDate('live_games.created_at', '<=', $date)
+                              ->where('live_games.is_result_declared',0)
+    						  ->whereDate('live_games.created_at', '=', $date)
     						  ->whereTime('companies.bet_end_time','>',$time)
     						  ->get();
 

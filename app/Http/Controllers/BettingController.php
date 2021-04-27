@@ -14,6 +14,7 @@ use App\MasterDatum;
 use App\Wallet;
 use App\User;
 use App\Transaction;
+use App\LiveGame;
 
 class BettingController extends Controller
 {
@@ -74,6 +75,15 @@ class BettingController extends Controller
     	$data->number = $request->number;
     	$data->live_game_id = $request->id;
     	$data->save();
+
+
+        $live_game = LiveGame::find($request->id);
+        if ($live_game) {
+            $live_game->is_result_declared=1;
+            $live_game->result_declare_time = $date." ".$time;
+            $live_game->status =0;
+            $live_game->save();
+        }
 
     	$betting_data = Betting::leftJoin('live_games','live_games.id','bettings.live_game_id')
         ->leftJoin('game_types','game_types.id','live_games.game_type')

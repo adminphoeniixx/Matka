@@ -33,7 +33,7 @@ class BettingController extends Controller
     {
         $validator = $request->validate([
             'live_game_id'=>'required|integer',
-            'number'=>'required|string',
+            'number'=>'required',
             'user'=>'required|integer',       
         ]);
 
@@ -44,9 +44,10 @@ class BettingController extends Controller
              return response(['status'=>'error','message'=>'User not found.']);
          }
 
+       
 
-
-        $numbers=json_decode($request->number,true);
+        //$numbers=json_decode($request->number,true);
+         $numbers=$request->number;
         $total_amount = array_sum($numbers);
 
 

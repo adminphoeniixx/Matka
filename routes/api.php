@@ -39,6 +39,12 @@ Route::post('/send-otp','api\v1\LoginController@sendotp');
 
 Route::post('/verify-otp','api\v1\LoginController@verifyotp');
 
+
+Route::post('/login-with-otp','api\v1\LoginController@loginwithotp');
+
+Route::post('/verify-login-with-otp','api\v1\LoginController@verifyloginwithotp');
+
+
 Route::post('/resend-otp','api\v1\LoginController@resendotp');
 
 Route::post('/forget-password','api\v1\LoginController@forgetpassword');

@@ -19,7 +19,7 @@ class UserController extends Controller
 {
     public function withdrawrequest(Request $request){
 
-    	$validator = $request->validate([
+    	$validator = Validator::make($request->all(), [
     		'amount'=>'required|string',
             'account_number'=>'required|string',
             'name'=>'required|string',
@@ -28,6 +28,14 @@ class UserController extends Controller
             'user_id'=>'required|integer', 
 
         ]);
+
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
 
         $wallet = Wallet::where('user_id',$request->user_id)->first();
@@ -49,18 +57,18 @@ class UserController extends Controller
 		        $data->save();
 
 
-		        return response(['status'=>'success','message'=>'Request sent successfully.']);
+		        return response(['status'=>true,'message'=>'Request sent successfully.']);
 
         		
         	}else{
 
-        		return response(['status'=>'error','message'=>'insufficient balance in wallet.']);
+        		return response(['status'=>false,'message'=>'insufficient balance in wallet.']);
 
         	}
         	
         }else{
 
-        	return response(['status'=>'error','message'=>'User wallet not found.']);
+        	return response(['status'=>false,'message'=>'User wallet not found.']);
 
         }
 
@@ -74,9 +82,16 @@ class UserController extends Controller
 
     public function withdrawhistory(Request $request){
 
-    	$validator = $request->validate([
+    	$validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
         $data = WithdrawalRequest::join('withdraw_status','withdraw_status.id','withdrawal_requests.status')
         ->where('withdrawal_requests.user_id',$request->user_id)
@@ -84,7 +99,7 @@ class UserController extends Controller
         ->latest()
         ->get();
 
-        return response(['status'=>'success','message'=>'Data fetched successfully.','history'=>$data]);
+        return response(['status'=>true,'message'=>'Data fetched successfully.','history'=>$data]);
 
 
     }
@@ -93,9 +108,17 @@ class UserController extends Controller
 
      public function transactionhistory(Request $request){
 
-        $validator = $request->validate([
+        $validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
+
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
         $data = Transaction::join('transaction_types','transaction_types.id','transactions.transaction_type')
         ->where('transactions.user_id',$request->user_id)
@@ -103,7 +126,7 @@ class UserController extends Controller
         ->latest()
         ->get();
 
-        return response(['status'=>'success','message'=>'Data fetched successfully.','history'=>$data]);
+        return response(['status'=>true,'message'=>'Data fetched successfully.','history'=>$data]);
 
 
     }
@@ -118,9 +141,16 @@ class UserController extends Controller
 
     public function getcommision(Request $request){
 
-    	$validator = $request->validate([
+    	$validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
         $user = User::join('wallet','wallet.user_id','users.id')->where('users.id',$request->user_id)->select('users.referral_code','wallet.*')->first();
 
@@ -129,10 +159,10 @@ class UserController extends Controller
     		$total_people_added = User::where('referral_code_used','=',$user->referral_code)->count();
     		$invitation_link= "https://matkacompany.com/invite/".$user->referral_code;
 
-    		 return response(['status'=>'success','message'=>'Data fetched successfully.','commision'=>$user->bonus_balance,'total_people_added'=>$total_people_added,'invitation_link'=>$invitation_link]);
+    		 return response(['status'=>true,'message'=>'Data fetched successfully.','commision'=>$user->bonus_balance,'total_people_added'=>$total_people_added,'invitation_link'=>$invitation_link]);
 
     	}else{ 
-    		return response(['status'=>'error','message'=>'User not found.']);
+    		return response(['status'=>false,'message'=>'User not found.']);
     	}
     }
 
@@ -142,9 +172,17 @@ class UserController extends Controller
 
      public function exchangecommision(Request $request){
 
-    	$validator = $request->validate([
+    	$validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
+
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
 
 
@@ -161,10 +199,10 @@ class UserController extends Controller
     		$wallet->bonus_balance =0; 
     		$wallet->save();
 
-    		 return response(['status'=>'success','message'=>'Commision exchanged successfully.']);
+    		 return response(['status'=>true,'message'=>'Commision exchanged successfully.']);
 
     	}else{ 
-    		return response(['status'=>'error','message'=>'User not found.']);
+    		return response(['status'=>false,'message'=>'User not found.']);
     	}
 
        
@@ -175,9 +213,16 @@ class UserController extends Controller
 
     public function mymatches(Request $request){
 
-    	$validator = $request->validate([
+    	$validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
 
         $matches = Betting::join('live_games','live_games.id','bettings.live_game_id')
@@ -190,7 +235,7 @@ class UserController extends Controller
         ->get();
 
 
-        return response(['status'=>'success','message'=>'Data fetched successfully.','matches'=>$matches]);
+        return response(['status'=>true,'message'=>'Data fetched successfully.','matches'=>$matches]);
 
 
     }
@@ -203,13 +248,21 @@ class UserController extends Controller
 
        public function editprofile(Request $request){
 
-    	$validator = $request->validate([
+    	$validator = Validator::make($request->all(), [
     		'name'=>'required|string',
             'mobile_number'=>'required|string|unique:users,mobile',
             'email_address'=>'required|string|unique:users,email',
             'state_id'=>'required|integer',
             'user_id'=>'required|integer', 
         ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
 
 
                    date_default_timezone_set('Asia/Kolkata');
@@ -229,9 +282,9 @@ class UserController extends Controller
 			       $data->state_id  = $request->state_id;
 			       $data->save();
 
-			       return response(['status'=>'success','message'=>'Profile updated successfully.']);
+			       return response(['status'=>true,'message'=>'Profile updated successfully.']);
 			       }else{
-			       	return response(['status'=>'error','message'=>'User not found.']);
+			       	return response(['status'=>false,'message'=>'User not found.']);
 			       }
 			      
 
@@ -242,11 +295,18 @@ class UserController extends Controller
 
        public function newpassword(Request $request){
 
-    	$validator = $request->validate([
+    	$validator = Validator::make($request->all(), [
     		'password'=>'required|string',
            	'confirm_password'=>'required|string',
             'user_id'=>'required|integer', 
         ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
 
                    date_default_timezone_set('Asia/Kolkata');
@@ -262,9 +322,9 @@ class UserController extends Controller
 
 			       $data->save();
 
-			       return response(['status'=>'success','message'=>'Password updated successfully.']);
+			       return response(['status'=>true,'message'=>'Password updated successfully.']);
 			       }else{
-			       	return response(['status'=>'error','message'=>'User not found.']);
+			       	return response(['status'=>false,'message'=>'User not found.']);
 			       }
 			      
 
@@ -278,10 +338,18 @@ class UserController extends Controller
 
     public function getchart(Request $request){
 
-    	$validator = $request->validate([
+    	$validator = Validator::make($request->all(), [
     		'date'=>'required|string',
    
         ]);
+
+    
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
     	$companies = Company::leftJoin('live_games','live_games.company','companies.id')
     	->leftJoin('winning_number','winning_number.live_game_id','live_games.id')
@@ -289,7 +357,7 @@ class UserController extends Controller
     	->select('companies.name as company_name','companies.image','winning_number.number')
     	->get();
 
-    	 return response(['status'=>'success','message'=>'Data fetched successfully.','chart'=>$companies]);
+    	 return response(['status'=>true,'message'=>'Data fetched successfully.','chart'=>$companies]);
 
     }
 

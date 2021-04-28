@@ -31,17 +31,24 @@ class BettingController extends Controller
 
     public function playjodigame(Request $request)
     {
-        $validator = $request->validate([
+        $validator =Validator::make($request->all(), [
             'live_game_id'=>'required|integer',
             'number'=>'required',
             'user'=>'required|integer',       
         ]);
 
 
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
+
          $user = User::find($request->user);
 
          if (!$user) {
-             return response(['status'=>'error','message'=>'User not found.']);
+             return response(['status'=>false,'message'=>'User not found.']);
          }
 
        
@@ -57,7 +64,7 @@ class BettingController extends Controller
 
         if ($current_balance->deposit_balance < $total_amount) {
           
-          return response(['status'=>'error','message'=>'Insufficient balance in wallet.']);
+          return response(['status'=>false,'message'=>'Insufficient balance in wallet.']);
         }
 
 
@@ -69,12 +76,12 @@ class BettingController extends Controller
 
             if ($check_game->status!=1) {
 
-                return response(['status'=>'error','message'=>'This game is unavailable.']);
+                return response(['status'=>false,'message'=>'This game is unavailable.']);
             }
             
         }else{
 
-            return response(['status'=>'error','message'=>'This game is unavailable.']);
+            return response(['status'=>false,'message'=>'This game is unavailable.']);
 
         }
          
@@ -190,7 +197,7 @@ class BettingController extends Controller
                
             
 
-        return response(['status'=>'success','message'=>'Bet Placed Successfully.']);
+        return response(['status'=>true,'message'=>'Bet Placed Successfully.']);
 
 
 
@@ -219,7 +226,7 @@ class BettingController extends Controller
 
   public function playcrossinggame(Request $request)
     {
-        $validator = $request->validate([
+        $validator = Validator::make($request->all(), [
             'live_game_id'=>'required|integer',
             'numbers'=>'required|array|min:4',
             'amount'=>'required|integer',
@@ -227,10 +234,17 @@ class BettingController extends Controller
         ]);
 
 
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
+
          $user = User::find($request->user);
 
          if (!$user) {
-             return response(['status'=>'error','message'=>'User not found.']);
+             return response(['status'=>false,'message'=>'User not found.']);
          }
 
 
@@ -240,7 +254,7 @@ class BettingController extends Controller
 
         if ($current_balance->deposit_balance<$total_amount) {
           
-          return response(['status'=>'error','message'=>'Insufficient balance in wallet.']);
+          return response(['status'=>false,'message'=>'Insufficient balance in wallet.']);
         }
 
 
@@ -250,12 +264,12 @@ class BettingController extends Controller
 
             if ($check_game->status!=1) {
 
-                return response(['status'=>'error','message'=>'This game is unavailable.']);
+                return response(['status'=>false,'message'=>'This game is unavailable.']);
             }
             
         }else{
 
-            return response(['status'=>'error','message'=>'This game is unavailable.']);
+            return response(['status'=>false,'message'=>'This game is unavailable.']);
 
         }
 
@@ -375,7 +389,7 @@ class BettingController extends Controller
                
             
 
-        return response(['status'=>'success','message'=>'Bet Placed Successfully.']);
+        return response(['status'=>true,'message'=>'Bet Placed Successfully.']);
 
 
 

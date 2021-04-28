@@ -14,6 +14,8 @@ use App\Events\Registration;
 use Str;
 use Illuminate\Support\Facades\Password;
 use App\Notifications\RegisterUser;
+use Validator;
+
 class LoginController extends Controller
 {
 
@@ -31,7 +33,7 @@ class LoginController extends Controller
     public function states(){
 
         $data= State::all();
-        return response(['status'=>'success','message'=>'States fetched successfully.', 'states'=>$data]);
+        return response(['status'=>true,'message'=>'States fetched successfully.', 'states'=>$data]);
     }
 
 
@@ -40,18 +42,29 @@ class LoginController extends Controller
 
     public function login(Request $request){
 
-    	$login = $request->validate([
-    		'email'=>'required|string',
-    		'password'=>'required|string'
-    	]);
 
-    	if(!(Auth::attempt($login))){
-    		return response(['status'=>'error','message'=>'Invalid login credentials.']);
+
+      $login = Validator::make($request->all(), [
+            'email' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        if ($login->fails()) {
+
+          return response(['status'=>false,'message'=>$login->errors()->first()]);
+         
+        }
+
+  
+
+
+    	if(!(Auth::attempt(['email'=>$request->email,'password'=>$request->password]))){
+    		return response(['status'=>false,'message'=>'Invalid login credentials.']);
 
 
     	}else{
         $accessToken  = Auth::user()->createToken('Token Name')->accessToken;
-        return response(['status'=>'success','message'=>'Login Successful.','user'=>Auth::user(), 'access_token'=>$accessToken]);
+        return response(['status'=>true,'message'=>'Login Successful.','user'=>Auth::user(), 'access_token'=>$accessToken]);
       }
 
 
@@ -71,14 +84,21 @@ class LoginController extends Controller
 
 
 
-    	$validator = $request->validate([
-    		'name'=>'required|string',
+    	$validator = Validator::make($request->all(), [
+    		    'name'=>'required|string',
             'mobile_number'=>'required|string|unique:users,mobile',
             'email_address'=>'required|string|unique:users,email',
             'password'=>'required|string',
             'state_id'=>'required|integer', 
 
         ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
 
                    date_default_timezone_set('Asia/Kolkata');
@@ -135,10 +155,10 @@ class LoginController extends Controller
 
 
     if(!(Auth::attempt(['email' => $request->email_address, 'password' => $request->password]))){
-        return response(['status'=>'error','message'=>'Something went wrong.']);
+        return response(['status'=>false,'message'=>'Something went wrong.']);
       }else{
         $accessToken  = Auth::user()->createToken('Token Name')->accessToken;
-        return response(['status'=>'success','message'=>'Registration Successfull.','user'=>$data, 'access_token'=>$accessToken]);
+        return response(['status'=>true,'message'=>'Registration Successfull.','user'=>$data, 'access_token'=>$accessToken]);
       }
 
     	
@@ -152,15 +172,22 @@ class LoginController extends Controller
     public function sendotp(Request $request){
 
 
-      $validator = $request->validate([
+      $validator = Validator::make($request->all(), [
             'mobile_number'=>'required|string|unique:users,mobile',
         ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
 
 
        event(new Registration($request->mobile_number));
 
-       return response(['status'=>'success','message'=>'OTP sent successfully.']);
+       return response(['status'=>true,'message'=>'OTP sent successfully.']);
 
     }
 
@@ -170,12 +197,107 @@ class LoginController extends Controller
 
     public function verifyotp(Request $request){
 
-        $validator = $request->validate([
+        $validator = Validator::make($request->all(), [
             'mobile_number'=>'required|string',
             'otp'=>'required|string',
         ]);
 
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
       
+
+                $curl = curl_init();
+
+                  curl_setopt_array($curl, array(
+                  CURLOPT_URL => "https://api.msg91.com/api/v5/otp/verify?authkey=357859AufIJss760659e28P1&mobile=".urlencode($request->mobile_number)."&otp=".$request->otp."",
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_ENCODING => "",
+                  CURLOPT_MAXREDIRS => 10,
+                  CURLOPT_TIMEOUT => 30,
+                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                  CURLOPT_CUSTOMREQUEST => "GET",
+                ));
+
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
+
+                curl_close($curl);
+
+                      if ($err) {
+                        //echo "cURL Error #:" . $err;
+                          return response(['status'=>false,'message'=>'Something went wrong.']);
+                      } else {
+                        //echo $response;
+                       $status= json_decode($response);
+                       if($status->type=="error"){
+                      return response(['status'=>false,'message'=>$status->message]);
+                       }else{
+                       
+                      return response(['status'=>true,'message'=>'OTP verified successfully']);
+                       }
+
+                      }
+
+
+        
+
+       
+
+        
+
+    }
+
+
+
+
+
+    public function loginwithotp(Request $request){
+
+
+      $validator = Validator::make($request->all(), [
+            'mobile_number'=>'required|string',
+        ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
+
+
+       event(new Registration($request->mobile_number));
+
+       return response(['status'=>true,'message'=>'OTP sent successfully.']);
+
+    }
+
+
+
+
+
+     public function verifyloginwithotp(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'mobile_number'=>'required|string',
+            'otp'=>'required|string',
+        ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
+
+
+
 
       
 
@@ -198,15 +320,36 @@ class LoginController extends Controller
 
                       if ($err) {
                         //echo "cURL Error #:" . $err;
-                          return response(['status'=>'error','message'=>'Something went wrong.']);
+                          return response(['status'=>false,'message'=>'Something went wrong.']);
                       } else {
                         //echo $response;
                        $status= json_decode($response);
+
                        if($status->type=="error"){
-                      return response(['status'=>'error','message'=>$status->message]);
+
+                      return response(['status'=>false,'message'=>$status->message]);
+
                        }else{
+
+                        $user_check = User::where('mobile',$request->mobile_number)->first();
+                        if ($user_check) {
+
+                          $data =User::find($user_check->id);
+
+                          Auth::loginUsingId($data->id);
+
+                          $accessToken  = Auth::user()->createToken('Token Name')->accessToken;
+                          
+                          return response(['status'=>true,'message'=>'OTP verified successfully.','user'=>$data, 'access_token'=>$accessToken]);
+                              
+
+                        }else{
+
+                          return response(['status'=>true,'message'=>'User not found.','user'=>null,'access_token'=>null]);
+
+                        }
                        
-                      return response(['status'=>'success','message'=>'OTP verified successfully']);
+                     
                        }
 
                       }
@@ -224,14 +367,18 @@ class LoginController extends Controller
 
 
 
+
     public function resendotp(Request $request){
 
-         $validator = $request->validate([
+         $validator = Validator::make($request->all(), [
             'mobile_number'=>'required|string',
         ]);
 
+        if ($validator->fails()) {
 
-    
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
 
              $curl = curl_init();
@@ -252,14 +399,14 @@ class LoginController extends Controller
             curl_close($curl);
 
             if ($err) {
-              return response(['status'=>'error','message'=>'Something went wrong.']);
+              return response(['status'=>false,'message'=>'Something went wrong.']);
             } else {
               //echo $response;
              $status= json_decode($response);
              if($status->type=='error'){
-            return response(['status'=>'error','message'=>$status->message]);
+            return response(['status'=>false,'message'=>$status->message]);
              }else{
-            return response(['status'=>'success','message'=>$status->message]);
+            return response(['status'=>true,'message'=>$status->message]);
              }
 
             }
@@ -275,7 +422,14 @@ class LoginController extends Controller
     public function forgetpassword(Request $request){
 
    
-        $request->validate(['email' => 'required|email']);
+        $request->Validator::make($request->all(), ['email' => 'required|email']);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
          $status = Password::sendResetLink(
                         $request->only('email')

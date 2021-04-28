@@ -19,9 +19,18 @@ class HomeController extends Controller
     public function index(Request $request){
 
 
-        $login = $request->validate([
+        $validator = Validator::make($request->all(), [
             'user_id'=>'required|string'
         ]);
+
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
         
 
     	date_default_timezone_set('Asia/Kolkata');
@@ -58,7 +67,7 @@ class HomeController extends Controller
 
        
 
-    			return response(['status'=>'success','message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'live_results'=>$live_results,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday,'wallet'=>$wallet]);			 
+    			return response(['status'=>true,'message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'live_results'=>$live_results,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday,'wallet'=>$wallet]);			 
 
     }
 
@@ -68,16 +77,25 @@ class HomeController extends Controller
     public function wallet(Request $request){
 
 
-    	$login = $request->validate([
+    	$validator = Validator::make($request->all(), [
     		'user_id'=>'required|string'
     	]);
+
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
 
     	$wallet = Wallet::where('user_id',$request->user_id)->first();
 
     	if ($wallet) {
-    			return response(['status'=>'success','message'=>'data fetched successfully.', 'wallet'=>$wallet]);		
+    			return response(['status'=>true,'message'=>'data fetched successfully.', 'wallet'=>$wallet]);		
     	}else{
-    		return response(['status'=>'error','message'=>'User wallet not found.']);		
+    		return response(['status'=>false,'message'=>'User wallet not found.']);		
     	}
 
     }
@@ -89,10 +107,17 @@ class HomeController extends Controller
     public function addcash(Request $request){
 
 
-    	$login = $request->validate([
+    	$validator = Validator::make($request->all(), [
     		'user_id'=>'required|string',
     		'amount'=>'required|string'
     	]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
 
     	$wallet = Wallet::where('user_id',$request->user_id)->first();
 
@@ -102,9 +127,9 @@ class HomeController extends Controller
     		$wallet_update->deposit_balance += $request->amount;
     		$wallet_update->save();
 
-    		return response(['status'=>'success','message'=>'Wallet updated successfully.', 'wallet'=>$wallet_update]);		
+    		return response(['status'=>true,'message'=>'Wallet updated successfully.', 'wallet'=>$wallet_update]);		
     	}else{
-    		return response(['status'=>'error','message'=>'User wallet not found.']);		
+    		return response(['status'=>false,'message'=>'User wallet not found.']);		
     	}
 
     }

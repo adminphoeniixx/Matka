@@ -50,7 +50,8 @@ class HomeController extends Controller
                        ->join('winning_number','live_games.id','winning_number.live_game_id')
                        ->where('live_games.is_result_declared',1)
                        ->whereDate('live_games.created_at', '=', $date)
-                       ->get();             
+                      // ->orderBy('users.id','ASC')
+                       ->first();             
 	
 
     	$upcoming_games = LiveGame::join('companies','companies.id','live_games.company')

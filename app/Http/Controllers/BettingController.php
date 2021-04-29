@@ -15,6 +15,7 @@ use App\Wallet;
 use App\User;
 use App\Transaction;
 use App\LiveGame;
+use App\Firebase;
 
 class BettingController extends Controller
 {
@@ -64,6 +65,9 @@ class BettingController extends Controller
 
 
     public function addwinningnumber(Request $request){
+
+
+        dd(new Firebase::send());
 
         date_default_timezone_set('Asia/Kolkata');
 

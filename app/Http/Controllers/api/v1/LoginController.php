@@ -47,6 +47,7 @@ class LoginController extends Controller
       $login = Validator::make($request->all(), [
             'email' => 'required|string',
             'password' => 'required|string',
+            'device_token'=>'required',
         ]);
 
         if ($login->fails()) {
@@ -54,6 +55,8 @@ class LoginController extends Controller
           return response(['status'=>false,'message'=>$login->errors()->first()]);
          
         }
+
+
 
   
 
@@ -63,8 +66,14 @@ class LoginController extends Controller
 
 
     	}else{
+
+
+        Auth::user()->update(['device_token'=>$request->device_token]);
+        $user= User::find(Auth::user()->id);
+        $user->device_token = $request->device_token;
+        $user->save(); 
         $accessToken  = Auth::user()->createToken('Token Name')->accessToken;
-        return response(['status'=>true,'message'=>'Login Successful.','user'=>Auth::user(), 'access_token'=>$accessToken]);
+        return response(['status'=>true,'message'=>'Login Successful.','user'=>$user, 'access_token'=>$accessToken]);
       }
 
 
@@ -287,6 +296,8 @@ class LoginController extends Controller
         $validator = Validator::make($request->all(), [
             'mobile_number'=>'required|string',
             'otp'=>'required|string',
+            'device_token'=>'required',
+
         ]);
 
 
@@ -336,6 +347,8 @@ class LoginController extends Controller
                         if ($user_check) {
 
                           $data =User::find($user_check->id);
+                          $data->device_token = $request->device_token;
+                          $data->save(); 
 
                           Auth::loginUsingId($data->id);
 

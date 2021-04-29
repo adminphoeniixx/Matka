@@ -9,6 +9,7 @@ use App\Wallet;
 use App\User;
 use App\Transaction;
 use App\LiveGame;
+use Validator;
 
 class BettingController extends Controller
 {

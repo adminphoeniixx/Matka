@@ -9,9 +9,16 @@ class Firebase extends Model
 {
 
 
-	public function send($title,$body){
+	public function send($title,$body,$users){
 
-		$firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
+		if ($users=="all") {
+			$firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->all();
+		}else{
+			$firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->where('id',[50,45]);
+		}
+
+		dd($firebaseToken);
+		
           
         $SERVER_API_KEY = 'AAAAseE0pIo:APA91bG9ngDYme9z36wRAVsmfPF57d4A9Nzx5JYpXCOnrtdfD9RYwYih7WMzHmmiqH52MbU2PhGJHlJct16Qs3fUNbbk0KVkCrxeCajh3NiHG70kmBu4EoZG2sWF11QQYdw8xtz0DvqP';
   

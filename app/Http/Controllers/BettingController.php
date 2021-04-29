@@ -67,10 +67,7 @@ class BettingController extends Controller
     public function addwinningnumber(Request $request){
 
 
-        $firebase = new Firebase;
-        $title="Result Declared.";
-        $body ="Result Declared For XYZ Games";
-        $firebase->send($title,$body);
+        
 
         date_default_timezone_set('Asia/Kolkata');
 
@@ -82,6 +79,29 @@ class BettingController extends Controller
     	$data->number = $request->number;
     	$data->live_game_id = $request->id;
     	$data->save();
+
+        $game_details = LiveGame::join('companies','companies.id','live_games.company')
+        ->where('live_games.id',$request->id)
+        ->select('companies.name')
+        ->first();
+
+
+        if ($game_details) {
+        
+        $firebase = new Firebase;
+        $title="Result announced for ".$game_details->name." company.";
+        $body ="Winning number for ".$game_details->name." is ".$request->number;
+        $users="all";
+        $users=[43,50,45];
+        $firebase->send($title,$body,$users);
+
+        }
+
+
+        $firebase = new Firebase;
+        $title="Result Declared.";
+        $body ="Result Declared For XYZ Games";
+        $firebase->send($title,$body);
 
 
         $live_game = LiveGame::find($request->id);
@@ -98,6 +118,7 @@ class BettingController extends Controller
     	->where('live_game_id',$request->id)
         ->where('number',$request->number)
     	->get();
+
 
 
     	foreach ($betting_data as $key => $value) {

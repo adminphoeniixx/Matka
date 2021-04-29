@@ -14,6 +14,7 @@ use App\WithdrawalRequest;
 use App\Betting;
 use App\Company;
 use App\Events\Registration;
+use Validator;
 
 class UserController extends Controller
 {

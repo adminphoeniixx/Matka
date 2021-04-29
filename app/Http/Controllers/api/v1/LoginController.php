@@ -90,6 +90,7 @@ class LoginController extends Controller
             'email_address'=>'required|string|unique:users,email',
             'password'=>'required|string',
             'state_id'=>'required|integer', 
+            'device_token'=>'required', 
 
         ]);
 
@@ -117,7 +118,7 @@ class LoginController extends Controller
              $data->mobile = $request->mobile_number;
 			       $data->password = bcrypt($request->password);
 			       $data->role_id = 2;
-                  
+             $data->device_token = $request->device_token;     
 			       $data->state_id  = $request->state_id;
 			       $data->referral_code = uniqid();
 			       $data->referral_code_used = $request->referral_code;

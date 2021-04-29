@@ -67,7 +67,10 @@ class BettingController extends Controller
     public function addwinningnumber(Request $request){
 
 
-        //dd(new Firebase::send());
+        $firebase = new Firebase;
+        $title="Result Declared.";
+        $body ="Result Declared For XYZ Games";
+        $firebase->send($title,$body);
 
         date_default_timezone_set('Asia/Kolkata');
 

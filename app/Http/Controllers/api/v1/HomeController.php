@@ -97,7 +97,7 @@ class HomeController extends Controller
     	if ($wallet) {
     			return response(['status'=>true,'message'=>'data fetched successfully.', 'wallet'=>$wallet]);		
     	}else{
-    		return response(['status'=>false,'message'=>'User wallet not found.']);		
+    		return response(['status'=>false,'message'=>'User wallet not found']);		
     	}
 
     }

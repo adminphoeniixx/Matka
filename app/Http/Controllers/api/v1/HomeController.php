@@ -13,6 +13,7 @@ use App\Events\Registration;
 use App\Company;
 use App\LiveGame;
 use App\WinningNumber;
+use Validator;
 
 class HomeController extends Controller
 {

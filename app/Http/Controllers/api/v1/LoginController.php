@@ -33,7 +33,7 @@ class LoginController extends Controller
     public function states(){
 
         $data= State::all();
-        return response(['status'=>true,'message'=>'States fetched successfully.', 'states'=>$data]);
+        return response(['status'=>true,'message'=>'States fetched successfully', 'states'=>$data]);
     }
 
 

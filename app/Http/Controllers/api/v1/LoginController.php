@@ -22,9 +22,9 @@ class LoginController extends Controller
 
 
 
-	 public function index(){
+   public function index(){
 
-    	return User::all();
+      return User::all();
     }
 
 
@@ -33,7 +33,7 @@ class LoginController extends Controller
     public function states(){
 
         $data= State::all();
-        return response(['status'=>true,'message'=>'States fetched successfully', 'states'=>$data]);
+        return response(['status'=>true,'message'=>'States fetched successfully.', 'states'=>$data]);
     }
 
 
@@ -47,6 +47,7 @@ class LoginController extends Controller
       $login = Validator::make($request->all(), [
             'email' => 'required|string',
             'password' => 'required|string',
+            'device_token'=>'required',
         ]);
 
         if ($login->fails()) {
@@ -55,23 +56,31 @@ class LoginController extends Controller
          
         }
 
+
+
   
 
 
-    	if(!(Auth::attempt(['email'=>$request->email,'password'=>$request->password]))){
-    		return response(['status'=>false,'message'=>'Invalid login credentials.']);
+      if(!(Auth::attempt(['email'=>$request->email,'password'=>$request->password]))){
+        return response(['status'=>false,'message'=>'Invalid login credentials.']);
 
 
-    	}else{
+      }else{
+
+
+        Auth::user()->update(['device_token'=>$request->device_token]);
+        $user= User::find(Auth::user()->id);
+        $user->device_token = $request->device_token;
+        $user->save(); 
         $accessToken  = Auth::user()->createToken('Token Name')->accessToken;
-        return response(['status'=>true,'message'=>'Login Successful.','user'=>Auth::user(), 'access_token'=>$accessToken]);
+        return response(['status'=>true,'message'=>'Login Successful.','user'=>$user, 'access_token'=>$accessToken]);
       }
 
 
-    	
+      
 
 
-    	
+      
 
     }
 
@@ -84,12 +93,13 @@ class LoginController extends Controller
 
 
 
-    	$validator = Validator::make($request->all(), [
-    		    'name'=>'required|string',
+      $validator = Validator::make($request->all(), [
+            'name'=>'required|string',
             'mobile_number'=>'required|string|unique:users,mobile',
             'email_address'=>'required|string|unique:users,email',
             'password'=>'required|string',
             'state_id'=>'required|integer', 
+            'device_token'=>'required', 
 
         ]);
 
@@ -111,17 +121,17 @@ class LoginController extends Controller
 
                     
 
-			       $data = new User;
-			       $data->name = $request->name;
-			       $data->email = $request->email_address;
+             $data = new User;
+             $data->name = $request->name;
+             $data->email = $request->email_address;
              $data->mobile = $request->mobile_number;
-			       $data->password = bcrypt($request->password);
-			       $data->role_id = 2;
-                  
-			       $data->state_id  = $request->state_id;
-			       $data->referral_code = uniqid();
-			       $data->referral_code_used = $request->referral_code;
-			       $data->save();
+             $data->password = bcrypt($request->password);
+             $data->role_id = 2;
+             $data->device_token = $request->device_token;     
+             $data->state_id  = $request->state_id;
+             $data->referral_code = uniqid();
+             $data->referral_code_used = $request->referral_code;
+             $data->save();
 
 
                 //$data->notify(new RegisterUser($data));
@@ -129,7 +139,7 @@ class LoginController extends Controller
 
                     //event(new Registration($data->mobile));
 
-			       
+             
                    if(setting('admin.joining_bonus')>0){
 
 
@@ -161,7 +171,7 @@ class LoginController extends Controller
         return response(['status'=>true,'message'=>'Registration Successfull.','user'=>$data, 'access_token'=>$accessToken]);
       }
 
-    	
+      
 
     }
 
@@ -286,6 +296,8 @@ class LoginController extends Controller
         $validator = Validator::make($request->all(), [
             'mobile_number'=>'required|string',
             'otp'=>'required|string',
+            'device_token'=>'required',
+
         ]);
 
 
@@ -335,6 +347,8 @@ class LoginController extends Controller
                         if ($user_check) {
 
                           $data =User::find($user_check->id);
+                          $data->device_token = $request->device_token;
+                          $data->save(); 
 
                           Auth::loginUsingId($data->id);
 

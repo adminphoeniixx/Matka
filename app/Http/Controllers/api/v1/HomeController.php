@@ -66,10 +66,11 @@ class HomeController extends Controller
         $is_holiday=setting('admin.holiday');
 
         $wallet = Wallet::where('user_id',$request->user_id)->first();
+        $app_url = env('APP_URL');
 
        
 
-                return response(['status'=>true,'message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'live_results'=>$live_results,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday,'wallet'=>$wallet]);             
+                return response(['status'=>true,'message'=>'data fetched successfully.', 'companies'=>$companies,'live_game'=>$live_games,'live_results'=>$live_results,'upcoming_games'=>$upcoming_games,'is_holiday'=>$is_holiday,'wallet'=>$wallet,'app_url'=>$app_url]);             
 
     }
 

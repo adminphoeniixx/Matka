@@ -233,10 +233,36 @@ class UserController extends Controller
         ->leftJoin('game_status','game_status.id','live_games.status')
         ->where('bettings.user',$request->user_id)
         ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status')
+        ->groupBy('bettings.live_game_id')
         ->get();
 
 
         return response(['status'=>true,'message'=>'Data fetched successfully.','matches'=>$matches]);
+
+
+    }
+
+
+
+
+
+    public function matchdetails(Request $request){
+
+
+       $validator = Validator::make($request->all(), [
+            'betting_id'=>'required|integer', 
+        ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
+
+        $betting = Betting::find()
+
 
 
     }

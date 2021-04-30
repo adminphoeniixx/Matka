@@ -233,7 +233,7 @@ class UserController extends Controller
         ->leftJoin('game_status','game_status.id','live_games.status')
         ->where('bettings.user',$request->user_id)
         ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status','bettings.id as betting_id')
-        ->groupBy('bettings.live_game_id')
+        ->groupBy(['bettings.live_game_id','live_games.game_type'])
         ->get();
 
 
@@ -271,6 +271,8 @@ class UserController extends Controller
         ->where('bettings.id',$request->betting_id)
         ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status','bettings.id as betting_id')
         ->first();
+
+        $
 
         dd($betting);
 

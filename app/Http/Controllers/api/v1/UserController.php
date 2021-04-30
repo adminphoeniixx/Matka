@@ -272,10 +272,16 @@ class UserController extends Controller
         ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status','bettings.id as betting_id','live_games.id as live_game_id')
         ->first();
 
-dd($betting);
+
         
 
-       // $numbers = Betting::
+        $numbers = Betting::join('live_games','live_games.id','bettings.live_game_id')
+        ->where('bettings.user_id',$request->user_id)
+        ->where('bettings.live_game_id',$betting->live_game_id)
+        ->get();
+
+
+        dd($numbers);
 
 
 

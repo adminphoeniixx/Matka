@@ -251,6 +251,7 @@ class UserController extends Controller
 
        $validator = Validator::make($request->all(), [
             'betting_id'=>'required|integer', 
+            'user_id'=>'required|integer'
         ]);
 
 
@@ -261,7 +262,19 @@ class UserController extends Controller
         }
 
 
-      //  $betting = Betting::find()
+        $betting =Betting::join('live_games','live_games.id','bettings.live_game_id')
+        ->join('companies','companies.id','live_games.company')
+        ->join('game_types','game_types.id','live_games.game_type')
+        ->leftJoin('winners','winners.betting_id','bettings.id')
+        ->leftJoin('game_status','game_status.id','live_games.status')
+        ->where('bettings.user',$request->user_id)
+        ->where('bettings.id',$request->betting_id)
+        ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status','bettings.id as betting_id')
+        ->first();
+
+        dd($betting);
+
+
 
 
 

@@ -261,7 +261,7 @@ class UserController extends Controller
         }
 
 
-        $betting = Betting::find()
+      //  $betting = Betting::find()
 
 
 

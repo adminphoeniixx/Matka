@@ -272,7 +272,7 @@ class UserController extends Controller
         ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status','bettings.id as betting_id')
         ->first();
 
-        $
+        
 
         dd($betting);
 

@@ -139,18 +139,11 @@ class LoginController extends Controller
 
                     //event(new Registration($data->mobile));
 
-             
-                   if(setting('admin.joining_bonus')>0){
-
-
-
                    $wallet = new Wallet;
                    $wallet->user_id = $data->id;
+                   
+                   if(setting('admin.joining_bonus')>0){
                    $wallet->bonus_balance +=setting('admin.joining_bonus') ;
-                   $wallet->save();
-
-
-
                     $transaction = new Transaction;
                     $transaction->transaction_type = 1;
                     $transaction->user_id = $data->id;
@@ -160,8 +153,9 @@ class LoginController extends Controller
                     $transaction->description ="Signup Bonus.";
                     $transaction->current_balance = $wallet->deposit_balance + $wallet->winning_balance + $wallet->bonus_balance ;
                     $transaction->save();
-
                    }
+
+                    $wallet->save();
 
 
     if(!(Auth::attempt(['email' => $request->email_address, 'password' => $request->password]))){

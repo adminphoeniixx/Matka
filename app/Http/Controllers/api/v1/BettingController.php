@@ -10,6 +10,7 @@ use App\User;
 use App\Transaction;
 use App\LiveGame;
 use Validator;
+use App\Firebase;
 
 class BettingController extends Controller
 {
@@ -169,6 +170,12 @@ class BettingController extends Controller
                             $wallet = Wallet::find($wallet_search->id);
                             $wallet->bonus_balance+=$referral_bonus;
                             $wallet->save();
+
+
+                        $firebase = new Firebase;
+                        $title="Congratulations, You have received referral bonus.";
+                        $body ="Congratulations, You have received referral bonus of ".$referral_bonus." ₹ .";
+                        $firebase->send($title,$body,$find_user->id);
 
                                 // Transaction Log 
 
@@ -361,6 +368,11 @@ class BettingController extends Controller
                             $wallet = Wallet::find($wallet_search->id);
                             $wallet->bonus_balance+=$referral_bonus;
                             $wallet->save();
+
+                             $firebase = new Firebase;
+                        $title="Congratulations, You have received referral bonus.";
+                        $body ="Congratulations, You have received referral bonus of ".$referral_bonus." ₹ .";
+                        $firebase->send($title,$body,$find_user->id);
 
                                 // Transaction Log 
 

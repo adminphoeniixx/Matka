@@ -66,7 +66,7 @@ class HomeController extends Controller
         $is_holiday=setting('admin.holiday');
 
         $wallet = Wallet::where('user_id',$request->user_id)->first();
-        $app_url = env('APP_URL');
+        $app_url = config('app.url');
 
        
 

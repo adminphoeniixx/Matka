@@ -106,4 +106,4 @@ Route::get('clear_cache', function () {
 
 
 
-//URL::forceScheme('https');
+URL::forceScheme('https');

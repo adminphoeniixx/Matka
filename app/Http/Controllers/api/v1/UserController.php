@@ -228,12 +228,12 @@ class UserController extends Controller
 
         $matches = Betting::join('live_games','live_games.id','bettings.live_game_id')
         ->join('companies','companies.id','live_games.company')
-        ->join('game_types','game_types.id','live_games.game_type')
+        ->join('game_types','game_types.id','bettings.type')
         ->leftJoin('winners','winners.betting_id','bettings.id')
         ->leftJoin('game_status','game_status.id','live_games.status')
         ->where('bettings.user',$request->user_id)
         ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status','bettings.id as betting_id')
-        ->groupBy(['bettings.live_game_id','live_games.game_type'])
+        ->groupBy(['bettings.live_game_id','bettings.type'])
         ->get();
 
 
@@ -276,7 +276,7 @@ class UserController extends Controller
         
 
         $numbers = Betting::join('live_games','live_games.id','bettings.live_game_id')
-        ->where('bettings.user_id',$request->user_id)
+        ->where('bettings.user',$request->user_id)
         ->where('bettings.live_game_id',$betting->live_game_id)
         ->get();
 

@@ -102,6 +102,7 @@ class BettingController extends Controller
             $betting->number = $key;
             $betting->amount = $value;
             $betting->user = $request->user;
+            $betting->type = 1;
             $betting->save();
 
         }
@@ -300,6 +301,7 @@ class BettingController extends Controller
             $betting->number = $value;
             $betting->amount = $request->amount;
             $betting->user = $request->user;
+            $betting->type = 2;
             $betting->save();
 
 

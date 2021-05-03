@@ -17,7 +17,7 @@ class Firebase extends Model
 			$firebaseToken = User::whereNotNull('device_token')->pluck('device_token')->where('id',[50,45]);
 		}
 
-		dd($firebaseToken);
+		//dd($firebaseToken);
 		
           
         $SERVER_API_KEY = 'AAAAseE0pIo:APA91bG9ngDYme9z36wRAVsmfPF57d4A9Nzx5JYpXCOnrtdfD9RYwYih7WMzHmmiqH52MbU2PhGJHlJct16Qs3fUNbbk0KVkCrxeCajh3NiHG70kmBu4EoZG2sWF11QQYdw8xtz0DvqP';
@@ -47,7 +47,7 @@ class Firebase extends Model
                
         $response = curl_exec($ch);
   
-        dd($response);
+        //dd($response);
 
 	}
     

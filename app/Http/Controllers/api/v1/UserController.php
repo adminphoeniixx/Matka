@@ -14,14 +14,15 @@ use App\WithdrawalRequest;
 use App\Betting;
 use App\Company;
 use App\Events\Registration;
+use App\Winner;
 use Validator;
 
 class UserController extends Controller
 {
     public function withdrawrequest(Request $request){
 
-    	$validator = Validator::make($request->all(), [
-    		'amount'=>'required|string',
+        $validator = Validator::make($request->all(), [
+            'amount'=>'required|string',
             'account_number'=>'required|string',
             'name'=>'required|string',
             'mobile_number'=>'required|string',
@@ -43,33 +44,33 @@ class UserController extends Controller
 
         if ($wallet) {
 
-        	if ($wallet->winning_balance >= $request->amount) {
+            if ($wallet->winning_balance >= $request->amount) {
 
 
-        		$data = new WithdrawalRequest;
+                $data = new WithdrawalRequest;
 
-		        $data->user_id = $request->user_id;
-		        $data->amount_requested = $request->amount;
-		        $data->account_number = $request->account_number;
-		        $data->ifsc_code = $request->ifsc_code;
-		        $data->name = $request->name;
-		        $data->mobile_number = $request->mobile_number;
-		        $data->bank_name = $request->bank_name;
-		        $data->save();
+                $data->user_id = $request->user_id;
+                $data->amount_requested = $request->amount;
+                $data->account_number = $request->account_number;
+                $data->ifsc_code = $request->ifsc_code;
+                $data->name = $request->name;
+                $data->mobile_number = $request->mobile_number;
+                $data->bank_name = $request->bank_name;
+                $data->save();
 
 
-		        return response(['status'=>true,'message'=>'Request sent successfully.']);
+                return response(['status'=>true,'message'=>'Request sent successfully.']);
 
-        		
-        	}else{
+                
+            }else{
 
-        		return response(['status'=>false,'message'=>'insufficient balance in wallet.']);
+                return response(['status'=>false,'message'=>'insufficient balance in wallet.']);
 
-        	}
-        	
+            }
+            
         }else{
 
-        	return response(['status'=>false,'message'=>'User wallet not found.']);
+            return response(['status'=>false,'message'=>'User wallet not found.']);
 
         }
 
@@ -83,7 +84,7 @@ class UserController extends Controller
 
     public function withdrawhistory(Request $request){
 
-    	$validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
 
@@ -142,7 +143,7 @@ class UserController extends Controller
 
     public function getcommision(Request $request){
 
-    	$validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
 
@@ -155,16 +156,16 @@ class UserController extends Controller
 
         $user = User::join('wallet','wallet.user_id','users.id')->where('users.id',$request->user_id)->select('users.referral_code','wallet.*')->first();
 
-    	if ($user) {
-    		
-    		$total_people_added = User::where('referral_code_used','=',$user->referral_code)->count();
-    		$invitation_link= "https://matkacompany.com/invite/".$user->referral_code;
+        if ($user) {
+            
+            $total_people_added = User::where('referral_code_used','=',$user->referral_code)->count();
+            $invitation_link= "https://matkacompany.com/invite/".$user->referral_code;
 
-    		 return response(['status'=>true,'message'=>'Data fetched successfully.','commision'=>$user->bonus_balance,'total_people_added'=>$total_people_added,'invitation_link'=>$invitation_link]);
+             return response(['status'=>true,'message'=>'Data fetched successfully.','commision'=>$user->bonus_balance,'total_people_added'=>$total_people_added,'invitation_link'=>$invitation_link]);
 
-    	}else{ 
-    		return response(['status'=>false,'message'=>'User not found.']);
-    	}
+        }else{ 
+            return response(['status'=>false,'message'=>'User not found.']);
+        }
     }
 
 
@@ -173,7 +174,7 @@ class UserController extends Controller
 
      public function exchangecommision(Request $request){
 
-    	$validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
 
@@ -192,19 +193,19 @@ class UserController extends Controller
        ->select('wallet.id as wid')
        ->first();
 
-    	if ($user) {
-    		
-    		$wallet = Wallet::find($user->wid);
+        if ($user) {
+            
+            $wallet = Wallet::find($user->wid);
 
-    		$wallet->deposit_balance += $wallet->bonus_balance;
-    		$wallet->bonus_balance =0; 
-    		$wallet->save();
+            $wallet->deposit_balance += $wallet->bonus_balance;
+            $wallet->bonus_balance =0; 
+            $wallet->save();
 
-    		 return response(['status'=>true,'message'=>'Commision exchanged successfully.']);
+             return response(['status'=>true,'message'=>'Commision exchanged successfully.']);
 
-    	}else{ 
-    		return response(['status'=>false,'message'=>'User not found.']);
-    	}
+        }else{ 
+            return response(['status'=>false,'message'=>'User not found.']);
+        }
 
        
     }
@@ -214,7 +215,7 @@ class UserController extends Controller
 
     public function mymatches(Request $request){
 
-    	$validator = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'user_id'=>'required|integer', 
         ]);
 
@@ -228,11 +229,12 @@ class UserController extends Controller
 
         $matches = Betting::join('live_games','live_games.id','bettings.live_game_id')
         ->join('companies','companies.id','live_games.company')
-        ->join('game_types','game_types.id','live_games.game_type')
+        ->join('game_types','game_types.id','bettings.type')
         ->leftJoin('winners','winners.betting_id','bettings.id')
         ->leftJoin('game_status','game_status.id','live_games.status')
         ->where('bettings.user',$request->user_id)
-        ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status')
+        ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status','bettings.id as betting_id')
+        ->groupBy(['bettings.live_game_id','bettings.type'])
         ->get();
 
 
@@ -245,12 +247,77 @@ class UserController extends Controller
 
 
 
+    public function matchdetails(Request $request){
+
+
+       $validator = Validator::make($request->all(), [
+            'betting_id'=>'required|integer', 
+            'user_id'=>'required|integer'
+        ]);
+
+
+        if ($validator->fails()) {
+
+          return response(['status'=>false,'message'=>$validator->errors()->first()]);
+         
+        }
+
+
+        $betting =Betting::join('live_games','live_games.id','bettings.live_game_id')
+        ->join('companies','companies.id','live_games.company')
+        ->join('game_types','game_types.id','live_games.game_type')
+        ->leftJoin('winners','winners.betting_id','bettings.id')
+        ->leftJoin('game_status','game_status.id','live_games.status')
+        ->where('bettings.user',$request->user_id)
+        ->where('bettings.id',$request->betting_id)
+        ->select('companies.name as company_name','companies.image','game_types.name as game_type','bettings.created_at','winners.amount as winning_amount','game_status.name as game_status','bettings.id as betting_id','live_games.id as live_game_id','bettings.type as btype')
+        ->first();
+
+
+        
+
+
+        
+
+        $numbers = Betting::join('live_games','live_games.id','bettings.live_game_id')
+        ->where('bettings.user',$request->user_id)
+        ->where('bettings.live_game_id',$betting->live_game_id)
+        ->where('bettings.type',$betting->btype)
+        ->select('bettings.number','bettings.amount')
+        ->get();
+
+
+       $winner = Winner::where('live_game_id',$betting->live_game_id)
+       ->where('user_id',$request->user_id)
+       ->first();
+
+
+       if($betting->btype==1){
+        $winning_percentage = setting('admin.jodi_winning_percentage_value');
+       }else{
+        $winning_percentage = setting('admin.crossing_winning_percentage_value');
+       }
+       
+
+
+       return response(['status'=>true,'numbers'=>$numbers,'data'=>$betting,'winning_percentage'=>$winning_percentage,'winner_data'=>$winner]);
+
+
+
+
+
+    }
+
+
+
+
+
 
 
        public function editprofile(Request $request){
 
-    	$validator = Validator::make($request->all(), [
-    		'name'=>'required|string',
+        $validator = Validator::make($request->all(), [
+            'name'=>'required|string',
             'mobile_number'=>'required|string|unique:users,mobile',
             'email_address'=>'required|string|unique:users,email',
             'state_id'=>'required|integer',
@@ -273,32 +340,32 @@ class UserController extends Controller
 
                     $otp= rand(100000,999999);                
 
-			       $data =  User::find($request->user_id);
+                   $data =  User::find($request->user_id);
 
-			       if ($data) {
-			       $data->name = $request->name;
-			       $data->email = $request->email_address;
+                   if ($data) {
+                   $data->name = $request->name;
+                   $data->email = $request->email_address;
                    $data->mobile = $request->mobile_number;
-			      // $data->password = bcrypt($request->password);                  
-			       $data->state_id  = $request->state_id;
-			       $data->save();
+                  // $data->password = bcrypt($request->password);                  
+                   $data->state_id  = $request->state_id;
+                   $data->save();
 
-			       return response(['status'=>true,'message'=>'Profile updated successfully.']);
-			       }else{
-			       	return response(['status'=>false,'message'=>'User not found.']);
-			       }
-			      
+                   return response(['status'=>true,'message'=>'Profile updated successfully.']);
+                   }else{
+                    return response(['status'=>false,'message'=>'User not found.']);
+                   }
+                  
 
-    	
+        
 
     }
 
 
        public function newpassword(Request $request){
 
-    	$validator = Validator::make($request->all(), [
-    		'password'=>'required|string',
-           	'confirm_password'=>'required|string',
+        $validator = Validator::make($request->all(), [
+            'password'=>'required|string',
+            'confirm_password'=>'required|string',
             'user_id'=>'required|integer', 
         ]);
 
@@ -315,21 +382,21 @@ class UserController extends Controller
                     $date=date("Y-m-d");
                     $time=date("H:m:s");                        
 
-			       $data =  User::find($request->user_id);
+                   $data =  User::find($request->user_id);
 
-			       if ($data) {
+                   if ($data) {
 
-			      $data->password = bcrypt($request->confirm_password);                  
+                  $data->password = bcrypt($request->confirm_password);                  
 
-			       $data->save();
+                   $data->save();
 
-			       return response(['status'=>true,'message'=>'Password updated successfully.']);
-			       }else{
-			       	return response(['status'=>false,'message'=>'User not found.']);
-			       }
-			      
+                   return response(['status'=>true,'message'=>'Password updated successfully.']);
+                   }else{
+                    return response(['status'=>false,'message'=>'User not found.']);
+                   }
+                  
 
-    	
+        
 
     }
 
@@ -339,8 +406,8 @@ class UserController extends Controller
 
     public function getchart(Request $request){
 
-    	$validator = Validator::make($request->all(), [
-    		'date'=>'required|string',
+        $validator = Validator::make($request->all(), [
+            'date'=>'required|string',
    
         ]);
 
@@ -352,13 +419,13 @@ class UserController extends Controller
          
         }
 
-    	$companies = Company::leftJoin('live_games','live_games.company','companies.id')
-    	->leftJoin('winning_number','winning_number.live_game_id','live_games.id')
-    	->whereDate('live_games.created_at',$request->date)
-    	->select('companies.name as company_name','companies.image','winning_number.number')
-    	->get();
+        $companies = Company::leftJoin('live_games','live_games.company','companies.id')
+        ->leftJoin('winning_number','winning_number.live_game_id','live_games.id')
+        ->whereDate('live_games.created_at',$request->date)
+        ->select('companies.name as company_name','companies.image','winning_number.number')
+        ->get();
 
-    	 return response(['status'=>true,'message'=>'Data fetched successfully.','chart'=>$companies]);
+         return response(['status'=>true,'message'=>'Data fetched successfully.','chart'=>$companies]);
 
     }
 

@@ -101,7 +101,7 @@ class BettingController extends Controller
         $firebase = new Firebase;
         $title="Result Declared.";
         $body ="Result Declared For XYZ Games";
-        $firebase->send($title,$body);
+       // $firebase->send($title,$body);
 
 
         $live_game = LiveGame::find($request->id);

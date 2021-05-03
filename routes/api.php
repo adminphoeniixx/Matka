@@ -73,6 +73,7 @@ Route::middleware('auth:api')->post('/exchange-commision','api\v1\UserController
 
 
 Route::middleware('auth:api')->post('/my-matches','api\v1\UserController@mymatches');
+Route::middleware('auth:api')->post('/match-details','api\v1\UserController@matchdetails');
 
 Route::middleware('auth:api')->post('/edit-profile','api\v1\UserController@editprofile');
 
